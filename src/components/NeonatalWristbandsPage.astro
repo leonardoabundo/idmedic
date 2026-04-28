@@ -1,0 +1,518 @@
+---
+import type { ProductCategory, ProductSubcategory } from '../data/productCatalog';
+
+interface Props {
+  category: ProductCategory;
+  subcategory: ProductSubcategory;
+}
+
+const { category, subcategory } = Astro.props;
+
+const serviceHighlights = [
+  {
+    label: 'Pide en linea facil',
+    icon: 'bag',
+  },
+  {
+    label: 'Entrega rapida y confiable',
+    icon: 'home',
+  },
+  {
+    label: 'Apoyo y asesoramiento',
+    icon: 'user',
+  },
+];
+
+const sequenceFrames = Array.from(
+  { length: 65 },
+  (_, index) =>
+    `/images/Categoria%20de%20producto/Brazalete%20neonatal/Firefly%20Use%20the%20first%20image%20as%20the%20exact%20initial%20frame${String(index + 38).padStart(3, '0')}.png`
+);
+---
+
+<section class="neo-bands">
+  <div class="container">
+    <div class="neo-bands__layout" data-neo-track>
+      <div class="neo-bands__content">
+        <header class="neo-bands__header">
+          <nav class="neo-bands__breadcrumb-nav" aria-label="Ruta de navegacion">
+            <a href="/">Inicio</a>
+            <span>/</span>
+            <a href={category.href}>{category.label}</a>
+            <span>/</span>
+            <span>{subcategory.label}</span>
+          </nav>
+        </header>
+
+        <section class="neo-bands__hero">
+          <article class="neo-bands__hero-copy">
+            <h1>{subcategory.heroTitle}</h1>
+            <p>{subcategory.heroDescription}</p>
+            <strong>Conoce mas</strong>
+            <p>{subcategory.infoDescription}</p>
+            <a href="/#footer" class="neo-bands__link">Leer mas</a>
+          </article>
+        </section>
+
+        <section class="neo-bands__highlights" aria-label="Ventajas del servicio">
+          <div class="neo-bands__highlights-inner">
+            {serviceHighlights.map((item) => (
+              <article class="neo-bands__highlight">
+                <span class="neo-bands__highlight-icon" aria-hidden="true">
+                  {item.icon === 'bag' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 8h12l-1 11H7L6 8Z" />
+                      <path d="M9 8a3 3 0 1 1 6 0" />
+                    </svg>
+                  )}
+                  {item.icon === 'home' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m3 11 9-7 9 7" />
+                      <path d="M5 10.5V20h14v-9.5" />
+                    </svg>
+                  )}
+                  {item.icon === 'user' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="8" r="3.5" />
+                      <path d="M5 20a7 7 0 0 1 14 0" />
+                    </svg>
+                  )}
+                </span>
+                <span>{item.label}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="neo-bands__catalog">
+          <h2>{subcategory.listingTitle}</h2>
+
+          <div class="neo-bands__cards">
+            {subcategory.featuredProducts.map((card) => (
+              <article class="neo-bands__card">
+                <div class="neo-bands__card-media" aria-label={`Espacio reservado para ${card.title}`}>
+                  <span>Espacio para imagen</span>
+                </div>
+                <div class="neo-bands__card-body">
+                  <h3>{card.title}</h3>
+                  <p>{card.meta}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="neo-bands__info">
+          <article class="neo-bands__info-box">
+            <h2>{subcategory.infoTitle}</h2>
+            <p>{subcategory.infoDescription}</p>
+            <p>
+              Esta secuencia visual acompana el contenido del producto y permite presentar mejor el brazalete mientras el usuario sigue bajando la pagina.
+            </p>
+          </article>
+        </section>
+      </div>
+
+      <aside class="neo-bands__sequence-column">
+        <div class="neo-bands__sequence" data-neo-sequence data-frames={JSON.stringify(sequenceFrames)}>
+          <div class="neo-bands__sequence-frame">
+            <canvas class="neo-bands__canvas" aria-label="Animacion de brazalete neonatal por secuencia de imagenes"></canvas>
+            <div class="neo-bands__fallback">Cargando secuencia del producto</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  const sequenceRoot = document.querySelector('[data-neo-sequence]');
+
+  if (sequenceRoot instanceof HTMLElement) {
+    const trackRoot = sequenceRoot.closest('[data-neo-track]') || sequenceRoot;
+    const frameElement = sequenceRoot.querySelector('.neo-bands__sequence-frame');
+    const canvas = sequenceRoot.querySelector('canvas');
+    const fallback = sequenceRoot.querySelector('.neo-bands__fallback');
+    const frames = JSON.parse(sequenceRoot.dataset.frames || '[]');
+
+    if (canvas instanceof HTMLCanvasElement && Array.isArray(frames) && frames.length > 0) {
+      const context = canvas.getContext('2d', { alpha: true });
+      const orderedFrames = new Array(frames.length);
+      let readyCount = 0;
+      let hasShownFirstFrame = false;
+
+      const getPlayableFrames = () => orderedFrames.filter(Boolean);
+
+      const setCanvasSize = (image) => {
+        const bounds = canvas.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.round(bounds.width * ratio));
+        canvas.height = Math.max(1, Math.round(bounds.height * ratio));
+
+        if (context) {
+          context.setTransform(1, 0, 0, 1, 0, 0);
+          context.scale(ratio, ratio);
+        }
+
+        if (image) drawFrame(image);
+      };
+
+      const drawFrame = (image) => {
+        if (!context) return;
+
+        const bounds = canvas.getBoundingClientRect();
+        const width = bounds.width;
+        const height = bounds.height;
+
+        context.clearRect(0, 0, width, height);
+
+        const crop = {
+          top: 0.16,
+          right: 0,
+          bottom: 0.18,
+          left: 0,
+        };
+
+        const sourceX = image.naturalWidth * crop.left;
+        const sourceY = image.naturalHeight * crop.top;
+        const sourceWidth = image.naturalWidth * (1 - crop.left - crop.right);
+        const sourceHeight = image.naturalHeight * (1 - crop.top - crop.bottom);
+
+        const scale = Math.min(width / sourceWidth, height / sourceHeight);
+        const drawWidth = sourceWidth * scale;
+        const drawHeight = sourceHeight * scale;
+        const offsetX = (width - drawWidth) / 2;
+        const offsetY = (height - drawHeight) / 2;
+
+        context.drawImage(
+          image,
+          sourceX,
+          sourceY,
+          sourceWidth,
+          sourceHeight,
+          offsetX,
+          offsetY,
+          drawWidth,
+          drawHeight
+        );
+      };
+
+      const updateFrameFromScroll = () => {
+        const playableFrames = getPlayableFrames();
+        if (playableFrames.length === 0) return;
+
+        const scrollTop = window.scrollY || window.pageYOffset || 0;
+        const trackRect = trackRoot.getBoundingClientRect();
+        const trackTop = trackRect.top + scrollTop;
+        const stickyTop = frameElement instanceof HTMLElement
+          ? parseFloat(window.getComputedStyle(frameElement).top || '0') || 0
+          : 0;
+        const stickyHeight = frameElement instanceof HTMLElement
+          ? frameElement.offsetHeight || canvas.offsetHeight || 1
+          : canvas.offsetHeight || 1;
+        const trackHeight = trackRoot.scrollHeight || trackRoot.offsetHeight || stickyHeight;
+        const startScroll = Math.max(0, trackTop);
+        const endScroll = startScroll + Math.max(1, trackHeight - stickyHeight - stickyTop);
+
+        if (scrollTop <= startScroll) {
+          if (orderedFrames[0]) drawFrame(orderedFrames[0]);
+          return;
+        }
+
+        const rawProgress = (scrollTop - startScroll) / Math.max(1, endScroll - startScroll);
+        const progress = Math.max(0, Math.min(1, rawProgress));
+        const frameIndex = Math.min(playableFrames.length - 1, Math.round(progress * (playableFrames.length - 1)));
+
+        drawFrame(playableFrames[frameIndex]);
+      };
+
+      const handleFrameLoad = (index, image) => {
+        orderedFrames[index] = image;
+        readyCount += 1;
+
+        if (!hasShownFirstFrame && index === 0) {
+          hasShownFirstFrame = true;
+          setCanvasSize(image);
+          fallback?.classList.add('is-hidden');
+        }
+
+        if (readyCount === frames.length || (index === 0 && window.scrollY <= 0)) {
+          updateFrameFromScroll();
+        }
+      };
+
+      frames.forEach((src, index) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.loading = 'eager';
+        image.onload = () => handleFrameLoad(index, image);
+        image.onerror = () => {
+          readyCount += 1;
+          if (readyCount === frames.length) {
+            updateFrameFromScroll();
+          }
+        };
+        image.src = src;
+      });
+
+      const syncToScroll = () => {
+        if (getPlayableFrames().length > 0) {
+          updateFrameFromScroll();
+        }
+      };
+
+      window.addEventListener('resize', () => {
+        const playableFrames = getPlayableFrames();
+        if (playableFrames.length > 0) {
+          setCanvasSize(playableFrames[0]);
+          updateFrameFromScroll();
+        }
+      });
+
+      window.addEventListener('scroll', syncToScroll, { passive: true });
+    }
+  }
+</script>
+
+<style>
+  .neo-bands {
+    --sequence-height: min(520px, calc(100vh - var(--header-height) - var(--space-8)));
+    padding-top: calc(var(--header-total-height) + var(--space-8));
+    padding-bottom: var(--space-20);
+    background-color: var(--bg-white);
+  }
+
+  .neo-bands__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+    gap: var(--space-8);
+    align-items: stretch;
+  }
+
+  .neo-bands__content {
+    display: grid;
+    gap: var(--space-8);
+    align-self: start;
+  }
+
+  .neo-bands__breadcrumb-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+  }
+
+  .neo-bands__breadcrumb-nav a {
+    transition: color var(--transition-fast);
+  }
+
+  .neo-bands__breadcrumb-nav a:hover {
+    color: var(--primary);
+  }
+
+  .neo-bands__hero-copy {
+    padding: var(--space-8);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 100%);
+    border: 1px solid #e1e9f2;
+  }
+
+  .neo-bands__hero-copy h1 {
+    font-size: clamp(1.9rem, 3.1vw, 2.6rem);
+    margin-bottom: var(--space-4);
+    color: var(--primary);
+    letter-spacing: -0.03em;
+  }
+
+  .neo-bands__hero-copy p {
+    color: var(--text-secondary);
+  }
+
+  .neo-bands__hero-copy strong {
+    display: inline-block;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+    color: var(--primary);
+    font-size: var(--font-size-sm);
+  }
+
+  .neo-bands__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 118px;
+    margin-top: var(--space-5);
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-fast);
+  }
+
+  .neo-bands__link:hover {
+    background-color: var(--primary);
+    color: var(--text-white);
+  }
+
+  .neo-bands__sequence-column {
+    position: relative;
+    align-self: stretch;
+    min-height: 100%;
+  }
+
+  .neo-bands__sequence {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .neo-bands__sequence-frame {
+    position: relative;
+    height: var(--sequence-height);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: var(--bg-white);
+  }
+
+  .neo-bands__canvas {
+    display: block;
+    width: 100%;
+    height: var(--sequence-height);
+  }
+
+  .neo-bands__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .neo-bands__fallback.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .neo-bands__highlights {
+    width: 100%;
+    padding: var(--space-4) 0;
+    background-color: #f3f3f4;
+  }
+
+  .neo-bands__highlights-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    padding: 0 var(--space-6);
+  }
+
+  .neo-bands__highlight {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    color: var(--text-primary);
+    text-align: center;
+    font-size: var(--font-size-sm);
+  }
+
+  .neo-bands__highlight-icon {
+    width: 18px;
+    height: 18px;
+    color: #353535;
+    flex-shrink: 0;
+  }
+
+  .neo-bands__catalog h2,
+  .neo-bands__info-box h2 {
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    margin-bottom: var(--space-5);
+  }
+
+  .neo-bands__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .neo-bands__card {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .neo-bands__card-media {
+    min-height: 290px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(232, 239, 246, 0.95), rgba(218, 227, 236, 0.96));
+    border: 1px dashed #b6c4d0;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .neo-bands__card-body {
+    text-align: center;
+  }
+
+  .neo-bands__card-body h3 {
+    font-size: 1.06rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .neo-bands__card-body p {
+    font-size: var(--font-size-sm);
+    color: #8d8d95;
+  }
+
+  .neo-bands__info-box {
+    padding: var(--space-8);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 100%);
+    border: 1px solid #e1e9f2;
+  }
+
+  .neo-bands__info-box p + p {
+    margin-top: var(--space-4);
+  }
+
+  @media (max-width: 1024px) {
+    .neo-bands__layout,
+    .neo-bands__cards,
+    .neo-bands__highlights-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .neo-bands__sequence {
+      position: static;
+      top: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .neo-bands {
+      --sequence-height: min(360px, calc(100vh - var(--header-height) - var(--space-6)));
+      padding-top: calc(var(--header-total-height) + var(--space-6));
+      padding-bottom: var(--space-12);
+    }
+
+    .neo-bands__hero-copy,
+    .neo-bands__info-box {
+      padding: var(--space-6);
+    }
+
+    .neo-bands__highlights-inner {
+      padding: 0 var(--space-4);
+    }
+
+    .neo-bands__card-media,
+    .neo-bands__sequence-frame,
+    .neo-bands__canvas {
+      min-height: 220px;
+      height: var(--sequence-height);
+    }
+  }
+</style>

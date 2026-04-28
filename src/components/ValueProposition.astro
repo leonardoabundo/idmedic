@@ -1,0 +1,111 @@
+---
+
+---
+
+<section class="value section" id="nosotros">
+  <div class="container">
+    <div class="value__grid">
+      <div class="value__content">
+        <span class="section-label">Sobre IDMedic</span>
+        <h2 class="value__title">
+          Profesionales al cuidado
+          <span class="value__title-accent">de tu salud</span>
+        </h2>
+        <p class="value__text">
+          En IDMedic nos especializamos en soluciones de identificación y
+          seguridad médica para instituciones de salud. Con más de una década
+          de experiencia, proveemos tecnología confiable para la correcta
+          identificación de pacientes, trazabilidad de muestras y optimización
+          de procesos clínicos.
+        </p>
+        <p class="value__text">
+          Nuestro compromiso es brindar productos de alta calidad, respaldo
+          técnico especializado y un servicio integral que acompaña a nuestros
+          clientes en cada etapa.
+        </p>
+        <a href="#contacto" class="btn btn-primary btn-lg">Más información</a>
+      </div>
+      <div class="value__image">
+        <img
+          src="/images/inicio/img-block-2.webp"
+          alt="Profesional de salud atendiendo a una paciente"
+          class="value__image-block"
+          loading="lazy"
+        />
+        <div class="value__image-accent" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .value__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .value__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-6);
+    letter-spacing: -0.02em;
+    line-height: var(--line-height-tight);
+  }
+
+  .value__title-accent {
+    color: var(--primary);
+  }
+
+  .value__text {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-5);
+  }
+
+  .value__text:last-of-type {
+    margin-bottom: var(--space-8);
+  }
+
+  .value__image {
+    position: relative;
+  }
+
+  .value__image-block {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    display: block;
+  }
+
+  .value__image-accent {
+    position: absolute;
+    bottom: -12px;
+    right: -12px;
+    width: 40%;
+    height: 40%;
+    border-radius: var(--radius-lg);
+    border: 3px solid var(--primary);
+    opacity: 0.2;
+    z-index: -1;
+  }
+
+  @media (max-width: 768px) {
+    .value__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+
+    .value__image {
+      order: -1;
+    }
+
+    .value__image-accent {
+      display: none;
+    }
+  }
+</style>

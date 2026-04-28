@@ -1,0 +1,149 @@
+---
+import BlogCard from './BlogCard.astro';
+
+const featuredArticles = [
+  {
+    title: 'Preguntas y respuestas para comprender por qué los productos de identificación son una consideración crucial',
+    excerpt: 'La importancia de una correcta identificación de pacientes va más allá del cumplimiento normativo. Exploramos las principales inquietudes del sector.',
+    image: '/images/inicio/blog/img-blog-1.webp',
+  },
+  {
+    title: '4 etiquetas de laboratorio especializadas que todo hospital necesita conocer',
+    excerpt: 'Desde muestras de sangre hasta medicamentos, cada tipo de etiqueta cumple una función crítica en la cadena de seguridad clínica.',
+    image: '/images/inicio/blog/img-blog-2.webp',
+  },
+];
+
+const articleLinks = [
+  '4 etiquetas de laboratorio especializadas',
+  'La automatización en farmacias ofrece seguridad y escalabilidad',
+  'Etiquetado avanzado de IDMedic para farmacias',
+];
+---
+
+<section class="blog section" id="blog">
+  <div class="container">
+    <div class="blog__grid">
+      <div class="blog__info">
+        <span class="section-label section-label--light">Blog</span>
+        <h2 class="blog__title">Nuestro blog de salud</h2>
+        <div class="blog__links">
+          {articleLinks.map((link) => (
+            <a href="#" class="blog__article-link">
+              {link}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </a>
+          ))}
+        </div>
+        <a href="#" class="btn btn-outline-white">Explorar blog</a>
+      </div>
+
+      <div class="blog__cards">
+        {featuredArticles.map((article) => (
+          <BlogCard
+            title={article.title}
+            excerpt={article.excerpt}
+            image={article.image}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .blog {
+    background-color: var(--bg-dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 163, 224, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .blog__info {
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog__title {
+    font-size: var(--font-size-2xl);
+    color: var(--text-white);
+    margin-bottom: var(--space-8);
+    letter-spacing: -0.02em;
+  }
+
+  .blog__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .blog__article-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-light);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-fast);
+  }
+
+  .blog__article-link:hover {
+    color: var(--text-white);
+    padding-left: var(--space-2);
+  }
+
+  .blog__article-link svg {
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity var(--transition-fast);
+  }
+
+  .blog__article-link:hover svg {
+    opacity: 1;
+  }
+
+  .blog__cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 1024px) {
+    .blog__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

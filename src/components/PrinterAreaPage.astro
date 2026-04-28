@@ -1,0 +1,419 @@
+---
+interface Props {
+  area: {
+    title: string;
+    intro: string;
+    benefits: string[];
+    applications: string[];
+  };
+}
+
+const { area } = Astro.props;
+
+const baseFrames = Array.from({ length: 63 }, (_, index) => `/images/impresora/1%20(${index + 1}).png`);
+const startFrameIndex = 3;
+const frameSources = [...baseFrames.slice(startFrameIndex), ...baseFrames.slice(0, startFrameIndex)];
+---
+
+<section class="printer-area">
+  <div class="container">
+    <div class="printer-area__layout" data-printer-track>
+      <div class="printer-area__content">
+        <section class="printer-area__hero">
+          <div class="printer-area__copy">
+            <h1 class="printer-area__title">Impresoras para identificacion hospitalaria</h1>
+            <p class="printer-area__lead">{area.intro}</p>
+
+            <div class="printer-area__actions">
+              <a href="/productos/etiquetas-e-impresoras" class="btn btn-primary">Ver categoria</a>
+              <a href="/contacto" class="btn btn-outline">Solicitar informacion</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="printer-area__features">
+          <div class="printer-area__features-grid">
+            <article class="printer-area__panel">
+              <h2>Que incluye esta solucion</h2>
+              <ul class="printer-area__list">
+                {area.benefits.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article class="printer-area__panel">
+              <h2>Aplicaciones frecuentes</h2>
+              <ul class="printer-area__list printer-area__list--compact">
+                {area.applications.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="printer-area__cta">
+          <div class="printer-area__cta-box">
+            <div>
+              <span class="section-label">Siguiente paso</span>
+              <h2>Podemos ayudarte a implementar impresoras y consumibles en tu flujo clinico.</h2>
+              <p>Te orientamos en compatibilidad, rendimiento y configuracion segun admision, enfermeria o laboratorio.</p>
+            </div>
+            <a href="/productos/etiquetas-e-impresoras" class="btn btn-secondary">Explorar productos</a>
+          </div>
+        </section>
+      </div>
+
+      <aside class="printer-area__sequence-column">
+        <div class="printer-area__sequence" data-printer-sequence data-frames={JSON.stringify(frameSources)}>
+          <div class="printer-area__sequence-frame">
+            <canvas class="printer-area__canvas" aria-label="Animacion de impresora por secuencia de imagenes"></canvas>
+            <div class="printer-area__fallback">Cargando secuencia del equipo</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  const sequenceRoot = document.querySelector('[data-printer-sequence]');
+
+  if (sequenceRoot instanceof HTMLElement) {
+    const trackRoot = sequenceRoot.closest('[data-printer-track]') || sequenceRoot;
+    const frameElement = sequenceRoot.querySelector('.printer-area__sequence-frame');
+    const canvas = sequenceRoot.querySelector('canvas');
+    const fallback = sequenceRoot.querySelector('.printer-area__fallback');
+    const frames = JSON.parse(sequenceRoot.dataset.frames || '[]');
+
+    if (canvas instanceof HTMLCanvasElement && Array.isArray(frames) && frames.length > 0) {
+      const context = canvas.getContext('2d', { alpha: true });
+      const orderedFrames = new Array(frames.length);
+      let readyCount = 0;
+      let hasShownFirstFrame = false;
+
+      const getPlayableFrames = () => orderedFrames.filter(Boolean);
+
+      const setCanvasSize = (image) => {
+        const bounds = canvas.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.round(bounds.width * ratio));
+        canvas.height = Math.max(1, Math.round(bounds.height * ratio));
+
+        if (context) {
+          context.setTransform(1, 0, 0, 1, 0, 0);
+          context.scale(ratio, ratio);
+        }
+
+        if (image) drawFrame(image);
+      };
+
+      const drawFrame = (image) => {
+        if (!context) return;
+
+        const bounds = canvas.getBoundingClientRect();
+        const width = bounds.width;
+        const height = bounds.height;
+
+        context.clearRect(0, 0, width, height);
+
+        const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+        const drawWidth = image.naturalWidth * scale;
+        const drawHeight = image.naturalHeight * scale;
+        const offsetX = (width - drawWidth) / 2;
+        const offsetY = (height - drawHeight) / 2;
+
+        context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+      };
+
+      const updateFrameFromScroll = () => {
+        const playableFrames = getPlayableFrames();
+        if (playableFrames.length === 0) return;
+
+        const scrollTop = window.scrollY || window.pageYOffset || 0;
+        const trackRect = trackRoot.getBoundingClientRect();
+        const trackTop = trackRect.top + scrollTop;
+        const stickyTop = frameElement instanceof HTMLElement
+          ? parseFloat(window.getComputedStyle(frameElement).top || '0') || 0
+          : 0;
+        const stickyHeight = frameElement instanceof HTMLElement
+          ? frameElement.offsetHeight || canvas.offsetHeight || 1
+          : canvas.offsetHeight || 1;
+        const trackHeight = trackRoot.scrollHeight || trackRoot.offsetHeight || stickyHeight;
+        const startScroll = Math.max(0, trackTop);
+        const endScroll = startScroll + Math.max(1, trackHeight - stickyHeight - stickyTop);
+
+        if (scrollTop <= startScroll) {
+          if (orderedFrames[0]) drawFrame(orderedFrames[0]);
+          return;
+        }
+
+        const rawProgress = (scrollTop - startScroll) / Math.max(1, endScroll - startScroll);
+        const progress = Math.max(0, Math.min(1, rawProgress));
+        const frameIndex = Math.min(
+          playableFrames.length - 1,
+          Math.round(progress * (playableFrames.length - 1))
+        );
+
+        drawFrame(playableFrames[frameIndex]);
+      };
+
+      const handleFrameLoad = (index, image) => {
+        orderedFrames[index] = image;
+        readyCount += 1;
+
+        if (!hasShownFirstFrame && index === 0) {
+          hasShownFirstFrame = true;
+          setCanvasSize(image);
+          fallback?.classList.add('is-hidden');
+        }
+
+        if (readyCount === frames.length || (index === 0 && window.scrollY <= 0)) {
+          updateFrameFromScroll();
+        }
+      };
+
+      frames.forEach((src, index) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.loading = 'eager';
+        image.onload = () => handleFrameLoad(index, image);
+        image.onerror = () => {
+          readyCount += 1;
+          if (readyCount === frames.length) {
+            updateFrameFromScroll();
+          }
+        };
+        image.src = src;
+      });
+
+      const syncToScroll = () => {
+        if (getPlayableFrames().length > 0) {
+          updateFrameFromScroll();
+        }
+      };
+
+      window.addEventListener('resize', () => {
+        const playableFrames = getPlayableFrames();
+        if (playableFrames.length > 0) {
+          setCanvasSize(playableFrames[0]);
+          updateFrameFromScroll();
+        }
+      });
+
+      window.addEventListener('scroll', syncToScroll, { passive: true });
+    }
+  }
+</script>
+
+<style>
+  .printer-area {
+    --sequence-height: min(520px, calc(100vh - var(--header-height) - var(--space-8)));
+    padding-top: calc(var(--header-total-height) + var(--space-10));
+    background-color: var(--bg-white);
+    padding-bottom: var(--space-20);
+  }
+
+  .printer-area__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: var(--space-10);
+    align-items: stretch;
+  }
+
+  .printer-area__content {
+    display: grid;
+    gap: var(--space-12);
+    padding-bottom: var(--space-4);
+    align-self: start;
+  }
+
+  .printer-area__hero {
+    padding-top: var(--space-12);
+  }
+
+  .printer-area__title {
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    max-width: 10ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .printer-area__lead {
+    max-width: 56ch;
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-6);
+  }
+
+  .printer-area__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .printer-area__sequence-column {
+    position: relative;
+    align-self: stretch;
+    min-height: 100%;
+  }
+
+  .printer-area__sequence {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .printer-area__sequence-frame {
+    position: relative;
+    height: var(--sequence-height);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+
+  .printer-area__canvas {
+    display: block;
+    width: 100%;
+    height: var(--sequence-height);
+  }
+
+  .printer-area__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.02em;
+  }
+
+  .printer-area__fallback.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .printer-area__features {
+    background-color: var(--bg-white);
+  }
+
+  .printer-area__features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .printer-area__panel {
+    padding: var(--space-8);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-card);
+  }
+
+  .printer-area__panel h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-5);
+  }
+
+  .printer-area__list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .printer-area__list li {
+    position: relative;
+    padding-left: var(--space-6);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .printer-area__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+
+  .printer-area__list--compact {
+    gap: var(--space-3);
+  }
+
+  .printer-area__cta {
+    padding-bottom: var(--space-4);
+  }
+
+  .printer-area__cta-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg-dark), #123a5b);
+    color: var(--text-white);
+  }
+
+  .printer-area__cta-box h2 {
+    color: var(--text-white);
+    margin-bottom: var(--space-3);
+    max-width: 22ch;
+  }
+
+  .printer-area__cta-box p {
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .printer-area__cta :global(.section-label) {
+    color: var(--secondary);
+  }
+
+  .printer-area__cta :global(.section-label::before) {
+    background-color: var(--secondary);
+  }
+
+  @media (max-width: 1024px) {
+    .printer-area__layout,
+    .printer-area__features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .printer-area__hero {
+      padding-top: 0;
+    }
+
+    .printer-area__sequence {
+      position: static;
+      top: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .printer-area {
+      --sequence-height: min(360px, calc(100vh - var(--header-height) - var(--space-6)));
+      padding-top: calc(var(--header-total-height) + var(--space-6));
+    }
+
+    .printer-area__sequence-frame,
+    .printer-area__canvas {
+      min-height: 360px;
+      height: 360px;
+    }
+
+    .printer-area__panel,
+    .printer-area__cta-box {
+      padding: var(--space-6);
+    }
+
+    .printer-area__cta-box {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

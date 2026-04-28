@@ -1,0 +1,68 @@
+---
+import SectionTitle from './SectionTitle.astro';
+import BenefitCard from './BenefitCard.astro';
+
+const benefits = [
+  {
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    title: 'Servicio personalizado y soporte integral al cliente',
+    description: 'Ofrecemos asesoría, entrenamiento y asistencia personalizada, antes, durante y después de la compra.',
+  },
+  {
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>',
+    title: 'Productos certificados y de alta calidad',
+    description: 'Todos nuestros productos cumplen con estándares internacionales de calidad y seguridad para el sector salud.',
+  },
+  {
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>',
+    title: 'Soluciones tecnológicas innovadoras',
+    description: 'Integramos software, hardware e insumos para ofrecer soluciones completas adaptadas a cada institución.',
+  },
+  {
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+    title: 'Experiencia comprobada en el sector salud',
+    description: 'Más de una década trabajando con clínicas y hospitales de todo el Perú, respaldados por resultados reales.',
+  },
+];
+---
+
+<section class="benefits section" id="servicios">
+  <div class="container">
+    <SectionTitle
+      label="Ventajas"
+      title="¿Por qué las clínicas y hospitales"
+      highlight="eligen a IDMedic?"
+    />
+    <div class="benefits__grid">
+      {benefits.map((benefit) => (
+        <BenefitCard
+          icon={benefit.icon}
+          title={benefit.title}
+          description={benefit.description}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .benefits__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 1024px) {
+    .benefits__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .benefits__grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import AreaCard from './AreaCard.astro';
+import { areas } from '../data/areas';
+
+const gridAreas = ['ident', 'impr', 'vest', 'etiq', 'soft'];
+---
+
+<section class="areas section" id="areas">
+  <div class="container">
+    <div class="areas__header">
+      <span class="section-label">&Aacute;reas de atenci&oacute;n</span>
+    </div>
+    <div class="areas__grid">
+      {areas.map((area, index) => (
+        <div class="areas__cell" style={`grid-area: ${gridAreas[index]};`}>
+          <AreaCard
+            title={area.title}
+            description={area.description}
+            href={`/areas/${area.slug}`}
+            image={area.image}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .areas {
+    background-color: var(--bg-white);
+  }
+
+  .areas__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .areas__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: var(--space-5);
+    grid-template-areas:
+      "ident impr vest"
+      "ident etiq soft";
+  }
+
+  .areas__cell {
+    min-height: 220px;
+  }
+
+  @media (max-width: 1024px) {
+    .areas__grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        "ident impr"
+        "ident vest"
+        "etiq soft";
+    }
+  }
+
+  @media (max-width: 640px) {
+    .areas__grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "ident"
+        "impr"
+        "vest"
+        "etiq"
+        "soft";
+    }
+
+    .areas__cell {
+      min-height: 200px;
+    }
+  }
+</style>

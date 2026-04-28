@@ -1,0 +1,24 @@
+---
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
+import ProductCategoryPage from '../../../components/ProductCategoryPage.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
+import { productCatalog } from '../../../data/productCatalog';
+
+export function getStaticPaths() {
+  return productCatalog.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<MainLayout title={`${category.label} | IDMedic`} description={category.description}>
+  <Header />
+  <main>
+    <ProductCategoryPage category={category} />
+  </main>
+  <Footer />
+</MainLayout>

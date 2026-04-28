@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href?: string;
+}
+
+const { title, description, href = '#' } = Astro.props;
+---
+
+<article class="product-card">
+  <div class="product-card__image placeholder-image" aria-hidden="true"></div>
+  <div class="product-card__content">
+    <h3 class="product-card__title">{title}</h3>
+    <p class="product-card__description">{description}</p>
+    <a href={href} class="btn btn-outline btn-sm">Más información</a>
+  </div>
+</article>
+
+<style>
+  .product-card {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+  }
+
+  .product-card__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #D8DCE2;
+    flex-shrink: 0;
+  }
+
+  .product-card__content {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-2);
+  }
+
+  .product-card__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .product-card__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    flex: 1;
+  }
+
+  .product-card .btn {
+    align-self: flex-start;
+    margin-top: var(--space-1);
+  }
+</style>

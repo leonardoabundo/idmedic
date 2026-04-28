@@ -1,0 +1,383 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout
+  title="Login | IDMedic"
+  description="Acceso de usuarios para IDMedic."
+>
+  <main class="login-shell">
+    <section class="login-layout">
+      <div class="login-visual">
+        <img
+          src="/images/inicio/PORTADA1scaled.webp"
+          alt="Acceso IDMedic"
+          class="login-visual__image"
+        />
+        <div class="login-visual__message">
+          <p class="login-visual__headline">
+            Más que una gestión, es ordenar tu
+            <span>salud</span>
+          </p>
+          <p class="login-visual__subcopy">Accede a tu cuenta y continúa tu proceso con IDMedic.</p>
+          <div class="login-visual__pill">Portal de acceso IDMedic</div>
+        </div>
+      </div>
+
+      <section class="login-card" aria-label="Formulario de inicio de sesión">
+        <a href="/" class="login-card__logo" aria-label="Volver al inicio">
+          <img src="/images/idmedic-logo-png.webp" alt="IDMedic" />
+        </a>
+
+        <div class="login-card__body">
+          <h1>Iniciar sesión</h1>
+
+          <form class="login-form">
+            <div class="login-form__group">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Ingresa tu email"
+              />
+            </div>
+
+            <div class="login-form__group">
+              <label for="password">Contraseña</label>
+              <div class="login-form__password-wrap">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Contraseña"
+                />
+                <button type="button" class="login-form__toggle" aria-label="Mostrar contraseña">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <a href="/#footer" class="login-form__forgot">¿Olvidaste tu contraseña?</a>
+
+            <label class="login-form__remember">
+              <input type="checkbox" name="remember" />
+              <span>Recordar número de documento</span>
+            </label>
+
+            <button type="submit" class="login-form__submit">Ingresar</button>
+          </form>
+
+          <p class="login-card__footer">
+            ¿No tienes cuenta? <a href="/#footer">Crear cuenta</a>
+          </p>
+        </div>
+      </section>
+    </section>
+  </main>
+</MainLayout>
+
+<style>
+  .login-shell {
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+
+  .login-layout {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(420px, 0.95fr);
+    align-items: stretch;
+  }
+
+  .login-visual {
+    position: relative;
+    padding: 32px 18px 32px 18px;
+  }
+
+  .login-visual__image {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 64px);
+    border-radius: 36px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .login-visual__message {
+    position: absolute;
+    right: 64px;
+    bottom: 84px;
+    width: min(100%, 440px);
+    padding: 40px 34px 96px;
+    border-radius: 34px;
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 20px 40px rgba(13, 39, 71, 0.08);
+  }
+
+  .login-visual__headline {
+    font-size: clamp(2.1rem, 4vw, 3.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    color: #2b49b8;
+    margin-bottom: 28px;
+  }
+
+  .login-visual__headline span {
+    display: block;
+    color: #66a9f1;
+    font-weight: 700;
+  }
+
+  .login-visual__subcopy {
+    font-size: 1rem;
+    color: #2248ac;
+  }
+
+  .login-visual__pill {
+    position: absolute;
+    left: 50%;
+    bottom: -18px;
+    transform: translateX(-50%);
+    min-width: 320px;
+    padding: 18px 28px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #87cdfa 0%, #70c2f5 100%);
+    color: #0e3ea8;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 14px 24px rgba(67, 143, 214, 0.22);
+  }
+
+  .login-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 24px 48px 32px;
+    background-color: #ffffff;
+  }
+
+  .login-card__logo {
+    display: inline-flex;
+    align-self: center;
+    margin-top: 6px;
+    margin-bottom: 56px;
+  }
+
+  .login-card__logo img {
+    width: 190px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .login-card__body {
+    width: min(100%, 420px);
+    margin: 0 auto;
+  }
+
+  .login-card__body h1 {
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    letter-spacing: -0.04em;
+    margin-bottom: 26px;
+    text-align: center;
+  }
+
+  .login-form {
+    display: grid;
+    gap: 22px;
+  }
+
+  .login-form__group {
+    display: grid;
+    gap: 8px;
+  }
+
+  .login-form__group label {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #111827;
+  }
+
+  .login-form__group > input {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 16px;
+    border: 1.5px solid #cfd8e3;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #111827;
+    font-size: 1rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .login-form__group > input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 179, 0.12);
+  }
+
+  .login-form__group > input,
+  .login-form__password-wrap input {
+    width: 100%;
+    min-height: 54px;
+    border: 1.5px solid #cfd8e3;
+    background-color: #ffffff;
+    color: #111827;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+
+  .login-form__group > input,
+  .login-form__password-wrap input {
+    padding: 0 16px;
+  }
+
+  .login-form__password-wrap {
+    position: relative;
+  }
+
+  .login-form__password-wrap input {
+    padding-right: 54px;
+    border-radius: 12px;
+  }
+
+  .login-form__toggle {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: none;
+    color: #111827;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .login-form__toggle svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .login-form__forgot {
+    justify-self: center;
+    margin-top: 6px;
+    color: #2d56f0;
+    font-weight: 600;
+  }
+
+  .login-form__remember {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    color: #111827;
+    font-size: 1rem;
+  }
+
+  .login-form__remember input {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    accent-color: #3558f2;
+  }
+
+  .login-form__submit {
+    justify-self: center;
+    min-width: 132px;
+    min-height: 56px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #3d64f6 0%, #2952f1 100%);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .login-form__submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(41, 82, 241, 0.22);
+  }
+
+  .login-card__footer {
+    margin-top: 72px;
+    text-align: center;
+    color: #111827;
+    font-weight: 500;
+  }
+
+  .login-card__footer a {
+    color: #2d56f0;
+    font-weight: 700;
+  }
+
+  @media (max-width: 1100px) {
+    .login-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .login-visual {
+      padding: 18px 18px 0;
+    }
+
+    .login-visual__image {
+      min-height: 520px;
+    }
+
+    .login-card {
+      padding-top: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .login-visual {
+      padding: 14px 14px 0;
+    }
+
+    .login-visual__image {
+      min-height: 360px;
+      border-radius: 24px;
+    }
+
+    .login-visual__message {
+      right: 24px;
+      left: 24px;
+      bottom: 36px;
+      width: auto;
+      padding: 24px 20px 74px;
+      border-radius: 24px;
+    }
+
+    .login-visual__pill {
+      min-width: auto;
+      width: calc(100% - 36px);
+      padding: 14px 18px;
+      font-size: 0.92rem;
+    }
+
+    .login-card {
+      padding: 20px 18px 32px;
+    }
+
+    .login-card__logo {
+      margin-bottom: 34px;
+    }
+
+    .login-card__body {
+      width: 100%;
+    }
+
+    .login-card__footer {
+      margin-top: 48px;
+    }
+  }
+</style>

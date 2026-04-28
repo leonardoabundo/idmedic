@@ -1,0 +1,281 @@
+---
+import type { ProductCategory } from '../data/productCatalog';
+
+interface Props {
+  category: ProductCategory;
+}
+
+const { category } = Astro.props;
+---
+
+<section class="product-category-page">
+  <div class="container">
+    <header class="product-category-page__hero">
+      <nav class="product-category-page__breadcrumb" aria-label="Ruta de navegacion">
+        <a href="/">Inicio</a>
+        <span>/</span>
+        <span>{category.label}</span>
+      </nav>
+      <h1>{category.label}</h1>
+      <p>{category.description}</p>
+    </header>
+
+    <section class="product-category-page__grid">
+      {category.subcategories.map((subcategory) => (
+        <article class="product-category-page__card">
+          <div class="product-category-page__media" aria-label={`Espacio reservado para ${subcategory.label}`}>
+            <span>Espacio para imagen</span>
+          </div>
+          <div class="product-category-page__body">
+            <h2>{subcategory.label}</h2>
+            <p>{subcategory.shortDescription}</p>
+            <a href={`/productos/${category.slug}/${subcategory.slug}`} class="product-category-page__link">
+              Ver subcategoria
+            </a>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="product-category-page__promo">
+      <article class="product-category-page__promo-copy">
+        <h2>Explora nuestros <span>productos</span></h2>
+        <p>
+          <span class="product-category-page__promo-inline">Explore nuestras innovadoras ofertas de productos y solicite</span>
+          <span class="product-category-page__promo-break">una muestra para encontrar la solucion adecuada para usted.</span>
+        </p>
+        <strong>Conoce mas</strong>
+        <p>
+          Nuestros productos ya estan disponibles para su compra directamente. Explore los catalogos para hacer su
+          pedido hoy mismo.
+        </p>
+        <a href="/#footer" class="product-category-page__promo-link">Leer mas</a>
+      </article>
+
+      <div class="product-category-page__promo-media">
+        <img
+          src="/images/categoria/vista-frontal-de-la-mujer-abriendo-cajas-despues-de-ordenar-en-linea.webp"
+          alt="Entrega de productos IDMedic"
+        />
+      </div>
+    </section>
+  </div>
+</section>
+
+<style>
+  .product-category-page {
+    padding-top: calc(var(--header-total-height) + var(--space-8));
+    padding-bottom: var(--space-20);
+    background-color: var(--bg-white);
+  }
+
+  .product-category-page__hero {
+    max-width: 760px;
+    margin-bottom: var(--space-10);
+  }
+
+  .product-category-page__breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+  }
+
+  .product-category-page__breadcrumb a {
+    transition: color var(--transition-fast);
+  }
+
+  .product-category-page__breadcrumb a:hover {
+    color: var(--primary);
+  }
+
+  .product-category-page__hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: var(--space-4);
+  }
+
+  .product-category-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  .product-category-page__card {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-card);
+  }
+
+  .product-category-page__media {
+    min-height: 260px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #edf2f7, #d9e3ec);
+    border: 1px dashed #b6c4d0;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .product-category-page__body h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .product-category-page__body p {
+    margin-bottom: var(--space-4);
+  }
+
+  .product-category-page__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.4rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-fast);
+  }
+
+  .product-category-page__link:hover {
+    background-color: var(--primary);
+    color: var(--text-white);
+  }
+
+  .product-category-page__promo {
+    display: grid;
+    grid-template-columns: minmax(420px, 1.08fr) minmax(420px, 0.92fr);
+    gap: 18px;
+    align-items: stretch;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .product-category-page__promo-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 210px;
+    padding: 26px 22px 24px 22px;
+    border-radius: 16px;
+    background: #f3f5f6;
+    border: 1px solid #eef1f3;
+  }
+
+  .product-category-page__promo-copy h2 {
+    max-width: none;
+    font-size: clamp(1.22rem, 1.95vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: var(--primary);
+  }
+
+  .product-category-page__promo-copy h2 span {
+    color: var(--text-primary);
+  }
+
+  .product-category-page__promo-copy p {
+    color: var(--text-secondary);
+    max-width: 44ch;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .product-category-page__promo-inline {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .product-category-page__promo-break {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .product-category-page__promo-copy strong {
+    display: inline-block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
+
+  .product-category-page__promo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    min-width: 88px;
+    margin-top: 10px;
+    padding: 0.48rem 0.95rem;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--primary);
+    background-color: transparent;
+    color: var(--primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+  }
+
+  .product-category-page__promo-link:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-white);
+  }
+
+  .product-category-page__promo-media {
+    min-height: 190px;
+    aspect-ratio: 2.8 / 1;
+    width: 100%;
+    max-width: 640px;
+    justify-self: start;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #d7e1ea;
+  }
+
+  .product-category-page__promo-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% 42%;
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .product-category-page__grid,
+    .product-category-page__promo {
+      grid-template-columns: 1fr;
+    }
+
+    .product-category-page__promo {
+      max-width: none;
+    }
+
+    .product-category-page__promo-media {
+      aspect-ratio: 16 / 9;
+      max-width: none;
+    }
+
+    .product-category-page__promo-inline {
+      display: inline;
+      white-space: normal;
+    }
+
+    .product-category-page__promo-break {
+      display: inline;
+      white-space: normal;
+    }
+  }
+</style>

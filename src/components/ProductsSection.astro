@@ -1,0 +1,200 @@
+---
+import ProductCard from './ProductCard.astro';
+import SectionTitle from './SectionTitle.astro';
+
+const products = [
+  {
+    title: 'Brazaletes termicos adulto/pediatrico',
+    description:
+      'Brazaletes de identificacion con impresion termica directa, resistentes al agua y al alcohol. Disponibles en diferentes tamanos para pacientes adultos y pediatricos.',
+    href: '/productos/brazaletes/adulto-pediatrico',
+  },
+  {
+    title: 'Brazaletes termicos recien nacidos',
+    description:
+      'Brazaletes de tamano neonatal con cierre seguro y superficie suave. Ideales para la identificacion segura en unidades de maternidad y neonatologia.',
+    href: '/areas/identificacion-de-pacientes',
+  },
+  {
+    title: 'Etiquetas adhesivas personalizadas',
+    description:
+      'Etiquetas de alta calidad para laboratorios, farmacias y registros clinicos. Compatibles con las principales marcas de impresoras del mercado.',
+    href: '/areas/etiquetado-medico',
+  },
+  {
+    title: 'Impresoras termicas hospitalarias',
+    description:
+      'Equipos para impresion rapida de brazaletes y etiquetas, disenados para procesos de admision, enfermeria y laboratorio.',
+    href: '/areas/impresoras',
+  },
+];
+---
+
+<section class="products section" id="productos">
+  <div class="container">
+    <SectionTitle
+      label="Productos"
+      title="Elegidos por"
+      highlight="nuestros clientes"
+      subtitle="Productos de identificacion medica de alta calidad, disenados para resistir las exigencias del entorno hospitalario."
+      align="left"
+    />
+
+    <div class="products__viewport" data-products-viewport>
+      <div class="products__track">
+        {products.map((product) => (
+          <div class="products__item">
+            <ProductCard
+              title={product.title}
+              description={product.description}
+              href={product.href}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="products__scrollbar" data-products-scrollbar aria-label="Desplazamiento horizontal de productos">
+      <button
+        type="button"
+        class="products__scrollbar-thumb"
+        data-products-scrollbar-thumb
+        aria-label="Mover productos"
+      ></button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const viewport = document.querySelector('[data-products-viewport]');
+  const scrollbar = document.querySelector('[data-products-scrollbar]');
+  const thumb = document.querySelector('[data-products-scrollbar-thumb]');
+
+  if (viewport && scrollbar && thumb) {
+    let isDragging = false;
+    let initializedFromRight = false;
+
+    function getMaxScroll() {
+      return Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
+    }
+
+    function getMaxThumbOffset() {
+      return Math.max(scrollbar.clientWidth - thumb.offsetWidth, 0);
+    }
+
+    function syncThumb() {
+      const maxScroll = getMaxScroll();
+      const ratio = viewport.clientWidth / viewport.scrollWidth;
+      const thumbWidth = Math.max(scrollbar.clientWidth * ratio, 64);
+      thumb.style.width = `${Math.min(thumbWidth, scrollbar.clientWidth)}px`;
+
+      const maxThumbOffset = getMaxThumbOffset();
+      const progress = maxScroll === 0 ? 0 : viewport.scrollLeft / maxScroll;
+      thumb.style.transform = `translateX(${maxThumbOffset * progress}px)`;
+    }
+
+    function setScrollFromClientX(clientX) {
+      const rect = scrollbar.getBoundingClientRect();
+      const thumbHalf = thumb.offsetWidth / 2;
+      const desiredOffset = Math.min(
+        Math.max(clientX - rect.left - thumbHalf, 0),
+        getMaxThumbOffset()
+      );
+
+      const maxThumbOffset = getMaxThumbOffset();
+      const progress = maxThumbOffset === 0 ? 0 : desiredOffset / maxThumbOffset;
+      viewport.scrollLeft = getMaxScroll() * progress;
+    }
+
+    viewport.addEventListener('scroll', syncThumb);
+    window.addEventListener('resize', syncThumb);
+
+    scrollbar.addEventListener('click', (event) => {
+      if (event.target === thumb) return;
+      setScrollFromClientX(event.clientX);
+    });
+
+    thumb.addEventListener('pointerdown', (event) => {
+      isDragging = true;
+      thumb.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    thumb.addEventListener('pointermove', (event) => {
+      if (!isDragging) return;
+      setScrollFromClientX(event.clientX);
+    });
+
+    thumb.addEventListener('pointerup', (event) => {
+      isDragging = false;
+      thumb.releasePointerCapture(event.pointerId);
+    });
+
+    thumb.addEventListener('pointercancel', () => {
+      isDragging = false;
+    });
+
+    if (!initializedFromRight) {
+      viewport.scrollLeft = getMaxScroll();
+      initializedFromRight = true;
+    }
+
+    syncThumb();
+  }
+</script>
+
+<style>
+  .products {
+    background-color: var(--bg-light);
+  }
+
+  .products__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    margin-bottom: var(--space-8);
+    scroll-behavior: smooth;
+  }
+
+  .products__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .products__track {
+    display: flex;
+    gap: var(--space-6);
+    width: max-content;
+  }
+
+  .products__item {
+    flex: 0 0 min(380px, calc(100vw - 72px));
+  }
+
+  .products__scrollbar {
+    position: relative;
+    width: min(100%, 240px);
+    height: 4px;
+    background-color: rgba(0, 102, 179, 0.18);
+    border-radius: var(--radius-full);
+    margin: 0 auto;
+  }
+
+  .products__scrollbar-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 100%;
+    border: none;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    cursor: pointer;
+    padding: 0;
+  }
+
+  @media (max-width: 768px) {
+    .products__item {
+      flex-basis: min(340px, calc(100vw - 56px));
+    }
+  }
+</style>

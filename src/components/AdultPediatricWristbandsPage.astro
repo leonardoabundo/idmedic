@@ -1,0 +1,310 @@
+---
+import type { ProductCategory, ProductSubcategory } from '../data/productCatalog';
+
+interface Props {
+  category: ProductCategory;
+  subcategory: ProductSubcategory;
+}
+
+const { category, subcategory } = Astro.props;
+
+const serviceHighlights = [
+  {
+    label: 'Pide en linea facil',
+    icon: 'bag',
+  },
+  {
+    label: 'Entrega rapida y confiable',
+    icon: 'home',
+  },
+  {
+    label: 'Apoyo y asesoramiento',
+    icon: 'user',
+  },
+];
+---
+
+<section class="adult-bands">
+  <div class="container">
+    <header class="adult-bands__header">
+      <nav class="adult-bands__breadcrumb-nav" aria-label="Ruta de navegacion">
+        <a href="/">Inicio</a>
+        <span>/</span>
+        <a href={category.href}>{category.label}</a>
+        <span>/</span>
+        <span>{subcategory.label}</span>
+      </nav>
+    </header>
+
+    <section class="adult-bands__hero">
+      <article class="adult-bands__hero-copy">
+        <h2>{subcategory.heroTitle}</h2>
+        <p>{subcategory.heroDescription}</p>
+        <strong>Conoce mas</strong>
+        <p>
+          Nuestros productos ya estan disponibles para su compra directamente. Explore los catalogos para hacer su
+          pedido hoy mismo.
+        </p>
+        <a href="/#footer" class="adult-bands__link">Leer mas</a>
+      </article>
+
+      <div class="adult-bands__hero-media" aria-label="Espacio reservado para imagen principal">
+        <span>Espacio para imagen principal</span>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="adult-bands__highlights" aria-label="Ventajas del servicio">
+    <div class="container adult-bands__highlights-inner">
+      {serviceHighlights.map((item) => (
+        <article class="adult-bands__highlight">
+          <span class="adult-bands__highlight-icon" aria-hidden="true">
+            {item.icon === 'bag' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8h12l-1 11H7L6 8Z" />
+                <path d="M9 8a3 3 0 1 1 6 0" />
+              </svg>
+            )}
+            {item.icon === 'home' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 11 9-7 9 7" />
+                <path d="M5 10.5V20h14v-9.5" />
+              </svg>
+            )}
+            {item.icon === 'user' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M5 20a7 7 0 0 1 14 0" />
+              </svg>
+            )}
+          </span>
+          <span>{item.label}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div class="container">
+
+    <section class="adult-bands__catalog">
+      <h2>{subcategory.listingTitle}</h2>
+
+      <div class="adult-bands__cards">
+        {subcategory.featuredProducts.map((card) => (
+          <article class="adult-bands__card">
+            <div class="adult-bands__card-media" aria-label={`Espacio reservado para ${card.title}`}>
+              <span>Espacio para imagen</span>
+            </div>
+            <div class="adult-bands__card-body">
+              <h3>{card.title}</h3>
+              <p>{card.meta}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<style>
+  .adult-bands {
+    padding-top: calc(var(--header-total-height) + var(--space-8));
+    padding-bottom: var(--space-20);
+    background-color: var(--bg-white);
+  }
+
+  .adult-bands__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .adult-bands__breadcrumb-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+  }
+
+  .adult-bands__breadcrumb-nav a {
+    transition: color var(--transition-fast);
+  }
+
+  .adult-bands__breadcrumb-nav a:hover {
+    color: var(--primary);
+  }
+
+  .adult-bands__hero {
+    display: grid;
+    grid-template-columns: 0.78fr 1.22fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .adult-bands__hero-copy {
+    padding: var(--space-8);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 100%);
+    border: 1px solid #e1e9f2;
+  }
+
+  .adult-bands__hero-copy h2 {
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    margin-bottom: var(--space-4);
+    color: var(--primary);
+    letter-spacing: -0.03em;
+  }
+
+  .adult-bands__hero-copy p {
+    color: var(--text-secondary);
+  }
+
+  .adult-bands__hero-copy p + strong {
+    display: inline-block;
+    margin-top: var(--space-4);
+  }
+
+  .adult-bands__hero-copy strong {
+    color: var(--primary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-2);
+  }
+
+  .adult-bands__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 118px;
+    margin-top: var(--space-5);
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-fast);
+  }
+
+  .adult-bands__link:hover {
+    background-color: var(--primary);
+    color: var(--text-white);
+  }
+
+  .adult-bands__hero-media,
+  .adult-bands__card-media {
+    border-radius: 22px;
+    background:
+      linear-gradient(135deg, rgba(232, 239, 246, 0.95), rgba(218, 227, 236, 0.96));
+    border: 1px dashed #b6c4d0;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .adult-bands__hero-media {
+    min-height: 340px;
+  }
+
+  .adult-bands__highlights {
+    width: 100%;
+    padding: var(--space-4) 0;
+    margin-bottom: var(--space-6);
+    background-color: #f3f3f4;
+  }
+
+  .adult-bands__highlights-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    padding: 0 var(--space-6);
+  }
+
+  .adult-bands__highlight {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    color: var(--text-primary);
+    text-align: center;
+    font-size: var(--font-size-sm);
+  }
+
+  .adult-bands__highlight-icon {
+    width: 18px;
+    height: 18px;
+    color: #353535;
+    flex-shrink: 0;
+  }
+
+  .adult-bands__catalog {
+    margin-bottom: var(--space-10);
+  }
+
+  .adult-bands__catalog h2 {
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    margin-bottom: var(--space-5);
+  }
+
+  .adult-bands__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .adult-bands__card {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .adult-bands__card-media {
+    min-height: 290px;
+  }
+
+  .adult-bands__card-body {
+    text-align: center;
+  }
+
+  .adult-bands__card-body h3 {
+    font-size: 1.06rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .adult-bands__card-body p {
+    font-size: var(--font-size-sm);
+    color: #8d8d95;
+  }
+
+  @media (max-width: 1024px) {
+    .adult-bands__hero,
+    .adult-bands__cards,
+    .adult-bands__highlights-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .adult-bands {
+      padding-top: calc(var(--header-total-height) + var(--space-6));
+      padding-bottom: var(--space-12);
+    }
+
+    .adult-bands__hero-copy {
+      padding: var(--space-6);
+    }
+
+    .adult-bands__hero-media {
+      min-height: 240px;
+    }
+
+    .adult-bands__highlights-inner {
+      padding: 0 var(--space-4);
+    }
+
+    .adult-bands__card-media {
+      min-height: 220px;
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import AdultPediatricWristbandsPage from '../../../components/AdultPediatricWristbandsPage.astro';
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
+import {
+  getProductCategory,
+  getProductSubcategory,
+  productCatalog,
+} from '../../../data/productCatalog';
+
+export function getStaticPaths() {
+  return productCatalog.flatMap((category) =>
+    category.subcategories.map((subcategory) => ({
+      params: {
+        category: category.slug,
+        subcategory: subcategory.slug,
+      },
+      props: {
+        category,
+        subcategory,
+      },
+    }))
+  );
+}
+
+const { category, subcategory } = Astro.props;
+const resolvedCategory = getProductCategory(category.slug);
+const resolvedSubcategory = getProductSubcategory(category.slug, subcategory.slug);
+---
+
+<MainLayout
+  title={`${subcategory.label} | ${category.label} | IDMedic`}
+  description={subcategory.shortDescription}
+>
+  <Header />
+  <main>
+    {resolvedCategory && resolvedSubcategory && (
+      <AdultPediatricWristbandsPage category={resolvedCategory} subcategory={resolvedSubcategory} />
+    )}
+  </main>
+  <Footer />
+</MainLayout>

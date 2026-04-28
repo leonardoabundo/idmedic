@@ -1,0 +1,95 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  highlight?: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+  light?: boolean;
+}
+
+const {
+  label,
+  title,
+  highlight,
+  subtitle,
+  align = 'left',
+  light = false,
+} = Astro.props;
+---
+
+<div class:list={['section-title', `section-title--${align}`, { 'section-title--light': light }]}>
+  {label && (
+    <span class:list={['section-label', { 'section-label--light': light }]}>
+      {label}
+    </span>
+  )}
+  <h2 class="section-title__heading">
+    {title}
+    {highlight && <span class="section-title__highlight"> {highlight}</span>}
+  </h2>
+  {subtitle && (
+    <p class="section-title__subtitle">{subtitle}</p>
+  )}
+</div>
+
+<style>
+  .section-title {
+    margin-bottom: var(--space-12);
+  }
+
+  .section-title--center {
+    text-align: center;
+  }
+
+  .section-title__heading {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title--light .section-title__heading {
+    color: var(--text-white);
+  }
+
+  .section-title__highlight {
+    color: var(--primary);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .section-title--light .section-title__highlight {
+    color: var(--secondary);
+  }
+
+  .section-title__subtitle {
+    font-size: var(--font-size-md);
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: var(--line-height-relaxed);
+  }
+
+  .section-title--center .section-title__subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-title--light .section-title__subtitle {
+    color: var(--text-light);
+  }
+
+  .section-label--light::before {
+    background-color: var(--secondary);
+  }
+
+  .section-label--light {
+    color: var(--secondary);
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      margin-bottom: var(--space-8);
+    }
+  }
+</style>

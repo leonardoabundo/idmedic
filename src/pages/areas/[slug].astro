@@ -1,0 +1,262 @@
+---
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+import PatientIdentificationPage from '../../components/PatientIdentificationPage.astro';
+import PrinterAreaPage from '../../components/PrinterAreaPage.astro';
+import { areas } from '../../data/areas';
+
+export function getStaticPaths() {
+  return areas.map((area) => ({
+    params: { slug: area.slug },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props;
+---
+
+<MainLayout title={`${area.title} | IDMedic`} description={area.seoDescription}>
+  <Header />
+  <main>
+    {area.slug === 'identificacion-de-pacientes' ? (
+      <PatientIdentificationPage area={area} />
+    ) : area.slug === 'impresoras' ? (
+      <PrinterAreaPage area={area} />
+    ) : (
+      <>
+        <section class="area-hero">
+          <div class="container">
+            <a href="/#areas" class="area-hero__back">Volver al inicio</a>
+            <div class="area-hero__panel">
+              <div class="area-hero__copy">
+                <span class="section-label">&Aacute;rea de atenci&oacute;n</span>
+                <h1 class="area-hero__title">{area.title}</h1>
+                <p class="area-hero__description">{area.intro}</p>
+                <div class="area-hero__actions">
+                  <a href="/#productos" class="btn btn-primary">Ver productos</a>
+                  <a href="/#footer" class="btn btn-outline">Solicitar informaci&oacute;n</a>
+                </div>
+              </div>
+              <div class="area-hero__media">
+                <img src={area.image} alt={area.title} class="area-hero__image" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="area-detail section-sm">
+          <div class="container area-detail__grid">
+            <article class="area-detail__card">
+              <h2 class="area-detail__heading">Qu&eacute; incluye esta soluci&oacute;n</h2>
+              <ul class="area-detail__list">
+                {area.benefits.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article class="area-detail__card">
+              <h2 class="area-detail__heading">Aplicaciones frecuentes</h2>
+              <ul class="area-detail__list area-detail__list--compact">
+                {area.applications.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="area-cta">
+          <div class="container">
+            <div class="area-cta__box">
+              <div>
+                <span class="section-label">Siguiente paso</span>
+                <h2 class="area-cta__title">Podemos ayudarte a implementar {area.title.toLowerCase()} en tu instituci&oacute;n.</h2>
+                <p class="area-cta__text">
+                  Te orientamos en la selecci&oacute;n de insumos, equipos y configuraciones seg&uacute;n el flujo de tu centro de salud.
+                </p>
+              </div>
+              <a href="/#areas" class="btn btn-secondary">Ver m&aacute;s &aacute;reas</a>
+            </div>
+          </div>
+        </section>
+      </>
+    )}
+  </main>
+  <Footer />
+</MainLayout>
+
+<style>
+  .area-hero {
+    padding-top: calc(var(--header-total-height) + var(--space-12));
+    padding-bottom: var(--space-12);
+    background:
+      radial-gradient(circle at top left, rgba(0, 163, 224, 0.14), transparent 28%),
+      linear-gradient(180deg, #f8fbfe 0%, #eef5fb 100%);
+  }
+
+  .area-hero__back {
+    display: inline-flex;
+    margin-bottom: var(--space-6);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary);
+  }
+
+  .area-hero__panel {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  .area-hero__title {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .area-hero__description {
+    font-size: var(--font-size-md);
+    max-width: 60ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .area-hero__actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .area-hero__media {
+    position: relative;
+    min-height: 360px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .area-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 42, 69, 0.25));
+  }
+
+  .area-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .area-detail {
+    background-color: var(--bg-white);
+  }
+
+  .area-detail__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .area-detail__card {
+    padding: var(--space-8);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-card);
+  }
+
+  .area-detail__heading {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-5);
+  }
+
+  .area-detail__list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .area-detail__list li {
+    position: relative;
+    padding-left: var(--space-6);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .area-detail__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+
+  .area-detail__list--compact {
+    gap: var(--space-3);
+  }
+
+  .area-cta {
+    padding-bottom: var(--space-20);
+  }
+
+  .area-cta__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg-dark), #123a5b);
+    color: var(--text-white);
+  }
+
+  .area-cta__title {
+    color: var(--text-white);
+    margin-bottom: var(--space-3);
+    max-width: 24ch;
+  }
+
+  .area-cta__text {
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 58ch;
+  }
+
+  .area-cta :global(.section-label) {
+    color: var(--secondary);
+  }
+
+  .area-cta :global(.section-label::before) {
+    background-color: var(--secondary);
+  }
+
+  @media (max-width: 900px) {
+    .area-hero__panel,
+    .area-detail__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .area-cta__box {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .area-hero__media {
+      min-height: 280px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .area-hero {
+      padding-top: calc(var(--header-total-height) + var(--space-8));
+    }
+
+    .area-detail__card,
+    .area-cta__box {
+      padding: var(--space-6);
+    }
+  }
+</style>

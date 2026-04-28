@@ -1,0 +1,753 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+
+const aboutItems = [
+  {
+    title: 'Nuestra Visión',
+    open: true,
+    content:
+      'Satisfacer eficientemente las expectativas y requerimientos de nuestros clientes ofreciendoles a traves de nuestros productos, soluciones confiables para la identificacion de personas; asi como mejorar de forma continua nuestros procesos, productos y servicios lo cual nos permitira incrementar el valor de la empresa.',
+  },
+  {
+    title: 'Nuestra Misión',
+    open: false,
+    content:
+      'Garantizar soluciones de identificacion medica y acompanamiento comercial con un servicio cercano, responsable y orientado a la continuidad operativa de cada cliente.',
+  },
+  {
+    title: 'Nuestras Ventajas',
+    open: false,
+    content:
+      'Aseguramos veracidad en nuestras ordenes, envios a tiempo, stock permanente y una asesoria enfocada en encontrar el producto correcto para cada necesidad.',
+  },
+];
+
+const skills = [
+  { label: 'Servicio', value: 95 },
+  { label: 'Atención al Cliente', value: 96 },
+  { label: 'Calidad de Productos', value: 99 },
+  { label: 'Soporte', value: 90 },
+];
+---
+
+<MainLayout
+  title="Nosotros | IDMedic"
+  description="Conoce a IDMedic, nuestras soluciones y servicio al cliente para instituciones de salud."
+>
+  <Header />
+  <main class="about-page">
+    <section class="about-hero">
+      <div class="container about-hero__grid">
+        <div class="about-hero__copy">
+          <span class="section-label">Nosotros</span>
+          <h1 class="about-hero__title">
+            <span class="about-hero__title-line">Profesionales al cuidado</span>
+            <span class="about-hero__highlight">de los implementos</span>
+            <span class="about-hero__title-line">para tu salud</span>
+          </h1>
+          <p class="about-hero__text">
+            En IDMedic acompañamos a clinicas, hospitales y centros de salud con productos y tecnologia orientados a mejorar la trazabilidad, reducir errores y optimizar procesos clinicos.
+          </p>
+          <div class="about-hero__actions">
+            <a href="/#footer" class="btn btn-outline btn-lg">Contactar</a>
+          </div>
+        </div>
+
+        <div class="about-hero__media">
+          <img
+            src="/images/nosotros/IDM.jpg"
+            alt="Equipo de IDMedic"
+            class="about-hero__image"
+            loading="eager"
+          />
+          <div class="about-hero__card">
+            <strong
+              class="about-hero__years"
+              data-years-counter
+              data-start="10"
+              data-end="16"
+            >+16 años</strong>
+            <span>apoyando procesos de identificacion medica</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-page__hero">
+      <div class="about-page__banner">
+        SOLUCIONES Y SERVICIO AL CLIENTE CON EL QUE USTED PUEDE CONTAR
+      </div>
+
+      <div class="container">
+        <div class="about-page__intro">
+          <p>
+            En IDMEDIC garantizamos nuestras soluciones de identificacion medica a cada paso del camino ofreciendo entrenamiento y asesoria a nuestros clientes sobre los mejores productos para cada necesidad, y como parte de nuestro superior servicio al cliente, aseguramos veracidad en nuestras ordenes, envios a tiempo y stock permanente.
+          </p>
+          <p>
+            Usted puede contar con nuestro servicio al cliente, antes, durante y despues de que su orden sea entregada. Nuestro equipo de ventas esta disponible online, por telefono o en persona para asegurar que su orden de compra sea procesada con el mas alto estandar de calidad y satisfaccion. Contamos con profesionales de ventas para proveerle del toque personal que usted se merece.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-page__content">
+      <div class="container about-page__grid">
+        <section>
+          <div class="about-page__section-title">
+            <h2>Que es IDMedic</h2>
+          </div>
+
+          <div class="about-page__accordion">
+            {aboutItems.map((item) => (
+              <details class="about-page__details" open={item.open}>
+                <summary class="about-page__summary">
+                  <span class="about-page__summary-icon" aria-hidden="true"></span>
+                  <span>{item.title}</span>
+                </summary>
+                <div class="about-page__details-body">
+                  <p>{item.content}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <div class="about-page__section-title">
+            <h2>Nuestras Habilidades</h2>
+          </div>
+
+          <div class="about-page__skills">
+            {skills.map((skill) => (
+              <article class="about-page__skill">
+                <div class="about-page__skill-bar">
+                  <div
+                    class="about-page__skill-fill"
+                    data-skill-fill
+                    data-skill-value={skill.value}
+                    style="width: 0%;"
+                  >
+                    <span>{skill.label} {skill.value}%</span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="about-story section-sm">
+      <div class="container about-story__grid">
+        <article class="about-story__card">
+          <h2>Nuestra experiencia</h2>
+          <p>
+            Trabajamos con instituciones de salud que necesitan soluciones confiables para identificar pacientes, etiquetar muestras, imprimir insumos clinicos y reforzar protocolos de bioseguridad.
+          </p>
+          <p>
+            Nuestra propuesta combina productos de calidad, soporte cercano y una mirada practica sobre los flujos reales de trabajo dentro del entorno hospitalario.
+          </p>
+        </article>
+
+        <article class="about-story__card">
+          <h2>Como trabajamos</h2>
+          <ul class="about-story__list">
+            <li data-work-step>Entendemos el proceso operativo del cliente antes de recomendar una solucion.</li>
+            <li data-work-step>Seleccionamos insumos y equipos segun el entorno clinico y el volumen de uso.</li>
+            <li data-work-step>Acompanamos la implementacion para asegurar continuidad y buen desempeno.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-values">
+      <div class="container">
+        <div class="about-values__head">
+          <span class="section-label">Lo que nos define</span>
+          <h2>Un servicio orientado a <span class="about-values__accent">control y confianza</span></h2>
+        </div>
+
+        <div class="about-values__grid">
+          <article class="about-values__item">
+            <div class="about-values__top">
+              <span class="about-values__badge" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56" />
+                  <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                </svg>
+              </span>
+              <h3>Calidad aplicable</h3>
+            </div>
+            <p>Soluciones pensadas para funcionar en el uso diario, no solo en la ficha tecnica.</p>
+          </article>
+          <article class="about-values__item">
+            <div class="about-values__top">
+              <span class="about-values__badge" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56" />
+                  <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                </svg>
+              </span>
+              <h3>Respuesta cercana</h3>
+            </div>
+            <p>Atencion directa para resolver dudas comerciales, tecnicas y operativas con rapidez.</p>
+          </article>
+          <article class="about-values__item">
+            <div class="about-values__top">
+              <span class="about-values__badge" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56" />
+                  <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                </svg>
+              </span>
+              <h3>Enfoque sector salud</h3>
+            </div>
+            <p>Conocemos las exigencias de clinicas y hospitales y adaptamos la propuesta a ese contexto.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</MainLayout>
+
+<script>
+  const yearsCounter = document.querySelector('[data-years-counter]');
+  const aboutDetails = Array.from(document.querySelectorAll('.about-page__details'));
+  const skillsSection = document.querySelector('.about-page__skills');
+  const skillFills = Array.from(document.querySelectorAll('[data-skill-fill]'));
+  const workList = document.querySelector('.about-story__list');
+  const workSteps = Array.from(document.querySelectorAll('[data-work-step]'));
+
+  if (yearsCounter) {
+    const start = Number(yearsCounter.getAttribute('data-start') || 10);
+    const end = Number(yearsCounter.getAttribute('data-end') || 16);
+    const duration = 2200;
+    const animationStart = performance.now();
+
+    function animateYears(now) {
+      const progress = Math.min((now - animationStart) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (end - start) * eased);
+      yearsCounter.textContent = `+${current} años`;
+
+      if (progress < 1) {
+        requestAnimationFrame(animateYears);
+      }
+    }
+
+    yearsCounter.textContent = `+${start} años`;
+    requestAnimationFrame(animateYears);
+  }
+
+  if (skillsSection && skillFills.length > 0) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateSkills() {
+      skillFills.forEach((fill, index) => {
+        const value = Number(fill.getAttribute('data-skill-value') || 0);
+        fill.animate(
+          [
+            { width: '0%' },
+            { width: `${value}%` },
+          ],
+          {
+            duration: 1800,
+            delay: index * 160,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'forwards',
+          }
+        );
+      });
+    }
+
+    if (reduceMotion) {
+      skillFills.forEach((fill) => {
+        const value = Number(fill.getAttribute('data-skill-value') || 0);
+        fill.style.width = `${value}%`;
+      });
+    } else {
+      const skillsObserver = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry?.isIntersecting) return;
+          animateSkills();
+          skillsObserver.disconnect();
+        },
+        { threshold: 0.35 }
+      );
+
+      skillsObserver.observe(skillsSection);
+    }
+  }
+
+  if (workList && workSteps.length > 0) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateWorkSteps() {
+      workSteps.forEach((step, index) => {
+        window.setTimeout(() => {
+          step.classList.add('is-checked');
+        }, index * 260);
+      });
+    }
+
+    if (reduceMotion) {
+      workSteps.forEach((step) => step.classList.add('is-checked'));
+    } else {
+      const workObserver = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry?.isIntersecting) return;
+          animateWorkSteps();
+          workObserver.disconnect();
+        },
+        { threshold: 0.45 }
+      );
+
+      workObserver.observe(workList);
+    }
+  }
+
+  aboutDetails.forEach((detail) => {
+    detail.addEventListener('toggle', () => {
+      if (!detail.open) return;
+
+      aboutDetails.forEach((otherDetail) => {
+        if (otherDetail !== detail) {
+          otherDetail.open = false;
+        }
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  .about-page {
+    background-color: var(--bg-white);
+  }
+
+  .about-hero {
+    padding-top: calc(var(--header-total-height) + var(--space-12));
+    padding-bottom: var(--space-12);
+    background:
+      radial-gradient(circle at top left, rgba(0, 163, 224, 0.14), transparent 28%),
+      linear-gradient(180deg, #f9fbfd 0%, #edf4fa 100%);
+  }
+
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .about-hero__title {
+    font-size: var(--font-size-hero);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+  }
+
+  .about-hero__highlight {
+    display: block;
+    color: var(--primary);
+  }
+
+  .about-hero__title-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .about-hero__text {
+    font-size: var(--font-size-md);
+    max-width: 58ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .about-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .about-hero__media {
+    position: relative;
+  }
+
+  .about-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    background-color: rgba(0, 163, 224, 0.16);
+    pointer-events: none;
+  }
+
+  .about-hero__image {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-xl);
+    display: block;
+    margin-left: auto;
+    filter: blur(1.5px);
+  }
+
+  .about-hero__card {
+    position: absolute;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    display: grid;
+    gap: var(--space-1);
+    max-width: 220px;
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .about-hero__card strong {
+    font-size: var(--font-size-xl);
+    color: var(--primary);
+  }
+
+  .about-page__hero {
+    padding-top: 0;
+    padding-bottom: var(--space-12);
+  }
+
+  .about-page__banner {
+    display: grid;
+    place-items: center;
+    min-height: 76px;
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-10);
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--text-white);
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .about-page__intro {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 1200px;
+  }
+
+  .about-page__intro p {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    color: var(--text-secondary);
+  }
+
+  .about-page__content {
+    padding-bottom: var(--space-16);
+  }
+
+  .about-page__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .about-page__section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .about-page__section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #d4d8df;
+  }
+
+  .about-page__section-title h2 {
+    font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .about-page__accordion {
+    display: grid;
+  }
+
+  .about-page__details {
+    border-bottom: 1px solid #d9dde4;
+    padding: var(--space-4) 0;
+  }
+
+  .about-page__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .about-page__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .about-page__summary-icon {
+    width: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .about-page__summary-icon::before {
+    content: '+';
+    color: var(--primary);
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .about-page__details[open] .about-page__summary-icon::before {
+    content: '-';
+    color: var(--primary);
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .about-page__details-body {
+    padding: var(--space-5) 0 0 calc(20px + var(--space-4));
+  }
+
+  .about-page__details-body p {
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .about-page__skills {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .about-page__skill-bar {
+    width: 100%;
+    background-color: #d9d9dd;
+    min-height: 42px;
+  }
+
+  .about-page__skill-fill {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 var(--space-4);
+    background-color: var(--primary);
+    color: var(--text-white);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  .about-story__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .about-story__card {
+    padding: var(--space-8);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-card);
+  }
+
+  .about-story__card h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-story__card p + p {
+    margin-top: var(--space-4);
+  }
+
+  .about-story__list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .about-story__list li {
+    position: relative;
+    padding-left: var(--space-6);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .about-story__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transition:
+      transform var(--transition-base),
+      opacity var(--transition-base),
+      background-color var(--transition-base);
+  }
+
+  .about-story__list li.is-checked::before {
+    content: '✓';
+    top: 0.05em;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--primary);
+    font-size: 1.15rem;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .about-values {
+    padding: var(--space-16) 0;
+    background-color: var(--bg-light);
+  }
+
+  .about-values__head {
+    margin-bottom: var(--space-10);
+  }
+
+  .about-values__head h2 {
+    font-size: var(--font-size-3xl);
+    max-width: 16ch;
+    letter-spacing: -0.03em;
+  }
+
+  .about-values__accent {
+    color: var(--primary);
+  }
+
+  .about-values__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .about-values__item {
+    position: relative;
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 249, 253, 1) 100%);
+    border: 1px solid rgba(0, 102, 179, 0.14);
+    box-shadow: 0 12px 28px rgba(11, 42, 69, 0.08);
+    overflow: hidden;
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .about-values__item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+  }
+
+  .about-values__item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px rgba(11, 42, 69, 0.12);
+    border-color: rgba(0, 102, 179, 0.24);
+  }
+
+  .about-values__top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-values__badge {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  .about-values__badge svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .about-values__item h3 {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    font-size: var(--font-size-md);
+    margin-bottom: 0;
+    line-height: 1.2;
+    color: var(--primary);
+  }
+
+  .about-values__item p {
+    max-width: 28ch;
+  }
+
+  @media (max-width: 900px) {
+    .about-hero__grid,
+    .about-page__grid,
+    .about-story__grid,
+    .about-values__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero {
+      padding-top: calc(var(--header-total-height) + var(--space-8));
+    }
+
+    .about-page__banner {
+      min-height: auto;
+      padding: var(--space-5);
+    }
+
+    .about-page__section-title {
+      align-items: flex-start;
+    }
+
+    .about-page__section-title::after {
+      display: none;
+    }
+
+    .about-hero__card {
+      position: static;
+      margin-top: var(--space-4);
+      max-width: none;
+    }
+
+    .about-story__card,
+    .about-values__item {
+      padding: var(--space-6);
+    }
+  }
+</style>

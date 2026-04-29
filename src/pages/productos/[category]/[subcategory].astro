@@ -1,5 +1,7 @@
 ---
 import AdultPediatricWristbandsPage from '../../../components/AdultPediatricWristbandsPage.astro';
+import AdultPediatricSequencePage from '../../../components/AdultPediatricSequencePage.astro';
+import AlertSpecialWristbandsPage from '../../../components/AlertSpecialWristbandsPage.astro';
 import NeonatalWristbandsPage from '../../../components/NeonatalWristbandsPage.astro';
 import Footer from '../../../components/Footer.astro';
 import Header from '../../../components/Header.astro';
@@ -37,10 +39,14 @@ const resolvedSubcategory = getProductSubcategory(category.slug, subcategory.slu
   <Header />
   <main>
     {resolvedCategory && resolvedSubcategory && (
-      resolvedCategory.slug === 'brazaletes' && resolvedSubcategory.slug === 'recien-nacidos' ? (
+      resolvedCategory.slug === 'brazaletes' && resolvedSubcategory.slug === 'adulto-pediatrico' ? (
+        <AdultPediatricSequencePage category={resolvedCategory} subcategory={resolvedSubcategory} />
+      ) : resolvedCategory.slug === 'brazaletes' && resolvedSubcategory.slug === 'recien-nacidos' ? (
         <NeonatalWristbandsPage category={resolvedCategory} subcategory={resolvedSubcategory} />
+      ) : resolvedCategory.slug === 'brazaletes' && resolvedSubcategory.slug === 'alerta-especial' ? (
+        <AlertSpecialWristbandsPage category={resolvedCategory} subcategory={resolvedSubcategory} />
       ) : (
-      <AdultPediatricWristbandsPage category={resolvedCategory} subcategory={resolvedSubcategory} />
+        <AdultPediatricWristbandsPage category={resolvedCategory} subcategory={resolvedSubcategory} />
       )
     )}
   </main>

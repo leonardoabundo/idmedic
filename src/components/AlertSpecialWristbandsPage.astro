@@ -24,18 +24,18 @@ const serviceHighlights = [
 ];
 
 const sequenceFrames = Array.from(
-  { length: 65 },
+  { length: 108 },
   (_, index) =>
-    `/images/Categoria%20de%20producto/Brazalete%20neonatal/Firefly%20Use%20the%20first%20image%20as%20the%20exact%20initial%20frame${String(index + 38).padStart(3, '0')}.png`
+    `/images/Categoria%20de%20producto/brazalete%20alerta/Firefly%20Use%20the%20first%20image%20as%20the%20exact%20starting%20frame${String(index + 12).padStart(3, '0')}.png`
 );
 ---
 
-<section class="neo-bands">
+<section class="alert-bands">
   <div class="container">
-    <div class="neo-bands__layout" data-neo-track>
-      <div class="neo-bands__content">
-        <header class="neo-bands__header">
-          <nav class="neo-bands__breadcrumb-nav" aria-label="Ruta de navegacion">
+    <div class="alert-bands__layout" data-alert-track>
+      <div class="alert-bands__content">
+        <header class="alert-bands__header">
+          <nav class="alert-bands__breadcrumb-nav" aria-label="Ruta de navegacion">
             <a href="/">Inicio</a>
             <span>/</span>
             <a href={category.href}>{category.label}</a>
@@ -44,21 +44,21 @@ const sequenceFrames = Array.from(
           </nav>
         </header>
 
-        <section class="neo-bands__hero">
-          <article class="neo-bands__hero-copy">
+        <section class="alert-bands__hero">
+          <article class="alert-bands__hero-copy">
             <h1>{subcategory.heroTitle}</h1>
             <p>{subcategory.heroDescription}</p>
             <strong>Conoce mas</strong>
             <p>{subcategory.infoDescription}</p>
-            <a href="/#footer" class="neo-bands__link">Leer mas</a>
+            <a href="/#footer" class="alert-bands__link">Leer mas</a>
           </article>
         </section>
 
-        <section class="neo-bands__highlights" aria-label="Ventajas del servicio">
-          <div class="neo-bands__highlights-inner">
+        <section class="alert-bands__highlights" aria-label="Ventajas del servicio">
+          <div class="alert-bands__highlights-inner">
             {serviceHighlights.map((item) => (
-              <article class="neo-bands__highlight">
-                <span class="neo-bands__highlight-icon" aria-hidden="true">
+              <article class="alert-bands__highlight">
+                <span class="alert-bands__highlight-icon" aria-hidden="true">
                   {item.icon === 'bag' && (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M6 8h12l-1 11H7L6 8Z" />
@@ -84,16 +84,16 @@ const sequenceFrames = Array.from(
           </div>
         </section>
 
-        <section class="neo-bands__catalog">
+        <section class="alert-bands__catalog">
           <h2>{subcategory.listingTitle}</h2>
 
-          <div class="neo-bands__cards">
+          <div class="alert-bands__cards">
             {subcategory.featuredProducts.map((card) => (
-              <article class="neo-bands__card">
-                <div class="neo-bands__card-media" aria-label={`Espacio reservado para ${card.title}`}>
+              <article class="alert-bands__card">
+                <div class="alert-bands__card-media" aria-label={`Espacio reservado para ${card.title}`}>
                   <span>Espacio para imagen</span>
                 </div>
-                <div class="neo-bands__card-body">
+                <div class="alert-bands__card-body">
                   <h3>{card.title}</h3>
                   <p>{card.meta}</p>
                 </div>
@@ -102,8 +102,8 @@ const sequenceFrames = Array.from(
           </div>
         </section>
 
-        <section class="neo-bands__info">
-          <article class="neo-bands__info-box">
+        <section class="alert-bands__info">
+          <article class="alert-bands__info-box">
             <h2>{subcategory.infoTitle}</h2>
             <p>{subcategory.infoDescription}</p>
             <p>
@@ -113,11 +113,11 @@ const sequenceFrames = Array.from(
         </section>
       </div>
 
-      <aside class="neo-bands__sequence-column">
-        <div class="neo-bands__sequence" data-neo-sequence data-frames={JSON.stringify(sequenceFrames)}>
-          <div class="neo-bands__sequence-frame">
-            <canvas class="neo-bands__canvas" aria-label="Animacion de brazalete neonatal por secuencia de imagenes"></canvas>
-            <div class="neo-bands__fallback">Cargando secuencia del producto</div>
+      <aside class="alert-bands__sequence-column">
+        <div class="alert-bands__sequence" data-alert-sequence data-frames={JSON.stringify(sequenceFrames)}>
+          <div class="alert-bands__sequence-frame">
+            <canvas class="alert-bands__canvas" aria-label="Animacion de brazalete de alerta por secuencia de imagenes"></canvas>
+            <div class="alert-bands__fallback">Cargando secuencia del producto</div>
           </div>
         </div>
       </aside>
@@ -126,13 +126,13 @@ const sequenceFrames = Array.from(
 </section>
 
 <script>
-  const sequenceRoot = document.querySelector('[data-neo-sequence]');
+  const sequenceRoot = document.querySelector('[data-alert-sequence]');
 
   if (sequenceRoot instanceof HTMLElement) {
-    const trackRoot = sequenceRoot.closest('[data-neo-track]') || sequenceRoot;
-    const frameElement = sequenceRoot.querySelector('.neo-bands__sequence-frame');
+    const trackRoot = sequenceRoot.closest('[data-alert-track]') || sequenceRoot;
+    const frameElement = sequenceRoot.querySelector('.alert-bands__sequence-frame');
     const canvas = sequenceRoot.querySelector('canvas');
-    const fallback = sequenceRoot.querySelector('.neo-bands__fallback');
+    const fallback = sequenceRoot.querySelector('.alert-bands__fallback');
     const frames = JSON.parse(sequenceRoot.dataset.frames || '[]');
 
     if (canvas instanceof HTMLCanvasElement && Array.isArray(frames) && frames.length > 0) {
@@ -166,36 +166,14 @@ const sequenceFrames = Array.from(
 
         context.clearRect(0, 0, width, height);
 
-        const crop = {
-          top: 0.16,
-          right: 0,
-          bottom: 0.18,
-          left: 0,
-        };
-
-        const sourceX = image.naturalWidth * crop.left;
-        const sourceY = image.naturalHeight * crop.top;
-        const sourceWidth = image.naturalWidth * (1 - crop.left - crop.right);
-        const sourceHeight = image.naturalHeight * (1 - crop.top - crop.bottom);
-
-        const baseScale = Math.min(width / sourceWidth, height / sourceHeight);
+        const baseScale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
         const scale = baseScale * 1.08;
-        const drawWidth = sourceWidth * scale;
-        const drawHeight = sourceHeight * scale;
+        const drawWidth = image.naturalWidth * scale;
+        const drawHeight = image.naturalHeight * scale;
         const offsetX = (width - drawWidth) / 2;
         const offsetY = (height - drawHeight) / 2;
 
-        context.drawImage(
-          image,
-          sourceX,
-          sourceY,
-          sourceWidth,
-          sourceHeight,
-          offsetX,
-          offsetY,
-          drawWidth,
-          drawHeight
-        );
+        context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
       };
 
       const updateFrameFromScroll = () => {
@@ -276,27 +254,27 @@ const sequenceFrames = Array.from(
 </script>
 
 <style>
-  .neo-bands {
+  .alert-bands {
     --sequence-height: min(520px, calc(100vh - var(--header-height) - var(--space-8)));
     padding-top: calc(var(--header-total-height) + var(--space-8));
     padding-bottom: var(--space-20);
     background-color: var(--bg-white);
   }
 
-  .neo-bands__layout {
+  .alert-bands__layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.03fr) minmax(0, 0.97fr);
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
     gap: var(--space-8);
     align-items: stretch;
   }
 
-  .neo-bands__content {
+  .alert-bands__content {
     display: grid;
     gap: var(--space-8);
     align-self: start;
   }
 
-  .neo-bands__breadcrumb-nav {
+  .alert-bands__breadcrumb-nav {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
@@ -304,33 +282,33 @@ const sequenceFrames = Array.from(
     color: var(--text-secondary);
   }
 
-  .neo-bands__breadcrumb-nav a {
+  .alert-bands__breadcrumb-nav a {
     transition: color var(--transition-fast);
   }
 
-  .neo-bands__breadcrumb-nav a:hover {
+  .alert-bands__breadcrumb-nav a:hover {
     color: var(--primary);
   }
 
-  .neo-bands__hero-copy {
+  .alert-bands__hero-copy {
     padding: var(--space-8);
     border-radius: 22px;
     background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 100%);
     border: 1px solid #e1e9f2;
   }
 
-  .neo-bands__hero-copy h1 {
+  .alert-bands__hero-copy h1 {
     font-size: clamp(1.9rem, 3.1vw, 2.6rem);
     margin-bottom: var(--space-4);
     color: var(--primary);
     letter-spacing: -0.03em;
   }
 
-  .neo-bands__hero-copy p {
+  .alert-bands__hero-copy p {
     color: var(--text-secondary);
   }
 
-  .neo-bands__hero-copy strong {
+  .alert-bands__hero-copy strong {
     display: inline-block;
     margin-top: var(--space-4);
     margin-bottom: var(--space-2);
@@ -338,7 +316,7 @@ const sequenceFrames = Array.from(
     font-size: var(--font-size-sm);
   }
 
-  .neo-bands__link {
+  .alert-bands__link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -352,23 +330,23 @@ const sequenceFrames = Array.from(
     transition: all var(--transition-fast);
   }
 
-  .neo-bands__link:hover {
+  .alert-bands__link:hover {
     background-color: var(--primary);
     color: var(--text-white);
   }
 
-  .neo-bands__sequence-column {
+  .alert-bands__sequence-column {
     position: relative;
     align-self: stretch;
     min-height: 100%;
   }
 
-  .neo-bands__sequence {
+  .alert-bands__sequence {
     position: sticky;
     top: calc(var(--header-height) + var(--space-4));
   }
 
-  .neo-bands__sequence-frame {
+  .alert-bands__sequence-frame {
     position: relative;
     height: var(--sequence-height);
     border-radius: var(--radius-xl);
@@ -376,13 +354,13 @@ const sequenceFrames = Array.from(
     background-color: var(--bg-white);
   }
 
-  .neo-bands__canvas {
+  .alert-bands__canvas {
     display: block;
     width: 100%;
     height: var(--sequence-height);
   }
 
-  .neo-bands__fallback {
+  .alert-bands__fallback {
     position: absolute;
     inset: 0;
     display: grid;
@@ -391,25 +369,25 @@ const sequenceFrames = Array.from(
     font-weight: var(--font-weight-semibold);
   }
 
-  .neo-bands__fallback.is-hidden {
+  .alert-bands__fallback.is-hidden {
     opacity: 0;
     pointer-events: none;
   }
 
-  .neo-bands__highlights {
+  .alert-bands__highlights {
     width: 100%;
     padding: var(--space-4) 0;
     background-color: #f3f3f4;
   }
 
-  .neo-bands__highlights-inner {
+  .alert-bands__highlights-inner {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-4);
     padding: 0 var(--space-6);
   }
 
-  .neo-bands__highlight {
+  .alert-bands__highlight {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -419,31 +397,31 @@ const sequenceFrames = Array.from(
     font-size: var(--font-size-sm);
   }
 
-  .neo-bands__highlight-icon {
+  .alert-bands__highlight-icon {
     width: 18px;
     height: 18px;
     color: #353535;
     flex-shrink: 0;
   }
 
-  .neo-bands__catalog h2,
-  .neo-bands__info-box h2 {
+  .alert-bands__catalog h2,
+  .alert-bands__info-box h2 {
     font-size: clamp(1.4rem, 2vw, 1.9rem);
     margin-bottom: var(--space-5);
   }
 
-  .neo-bands__cards {
+  .alert-bands__cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-5);
   }
 
-  .neo-bands__card {
+  .alert-bands__card {
     display: grid;
     gap: var(--space-3);
   }
 
-  .neo-bands__card-media {
+  .alert-bands__card-media {
     min-height: 290px;
     border-radius: 22px;
     background: linear-gradient(135deg, rgba(232, 239, 246, 0.95), rgba(218, 227, 236, 0.96));
@@ -455,63 +433,63 @@ const sequenceFrames = Array.from(
     font-weight: var(--font-weight-medium);
   }
 
-  .neo-bands__card-body {
+  .alert-bands__card-body {
     text-align: center;
   }
 
-  .neo-bands__card-body h3 {
+  .alert-bands__card-body h3 {
     font-size: 1.06rem;
     margin-bottom: var(--space-1);
   }
 
-  .neo-bands__card-body p {
+  .alert-bands__card-body p {
     font-size: var(--font-size-sm);
     color: #8d8d95;
   }
 
-  .neo-bands__info-box {
+  .alert-bands__info-box {
     padding: var(--space-8);
     border-radius: 22px;
     background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 100%);
     border: 1px solid #e1e9f2;
   }
 
-  .neo-bands__info-box p + p {
+  .alert-bands__info-box p + p {
     margin-top: var(--space-4);
   }
 
   @media (max-width: 1024px) {
-    .neo-bands__layout,
-    .neo-bands__cards,
-    .neo-bands__highlights-inner {
+    .alert-bands__layout,
+    .alert-bands__cards,
+    .alert-bands__highlights-inner {
       grid-template-columns: 1fr;
     }
 
-    .neo-bands__sequence {
+    .alert-bands__sequence {
       position: static;
       top: auto;
     }
   }
 
   @media (max-width: 768px) {
-    .neo-bands {
+    .alert-bands {
       --sequence-height: min(360px, calc(100vh - var(--header-height) - var(--space-6)));
       padding-top: calc(var(--header-total-height) + var(--space-6));
       padding-bottom: var(--space-12);
     }
 
-    .neo-bands__hero-copy,
-    .neo-bands__info-box {
+    .alert-bands__hero-copy,
+    .alert-bands__info-box {
       padding: var(--space-6);
     }
 
-    .neo-bands__highlights-inner {
+    .alert-bands__highlights-inner {
       padding: 0 var(--space-4);
     }
 
-    .neo-bands__card-media,
-    .neo-bands__sequence-frame,
-    .neo-bands__canvas {
+    .alert-bands__card-media,
+    .alert-bands__sequence-frame,
+    .alert-bands__canvas {
       min-height: 220px;
       height: var(--sequence-height);
     }

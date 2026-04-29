@@ -118,10 +118,11 @@ const frameSources = [...baseFrames.slice(startFrameIndex), ...baseFrames.slice(
 
         context.clearRect(0, 0, width, height);
 
-        const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+        const baseScale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+        const scale = baseScale * 1.4;
         const drawWidth = image.naturalWidth * scale;
         const drawHeight = image.naturalHeight * scale;
-        const offsetX = (width - drawWidth) / 2;
+        const offsetX = (width - drawWidth) / 2 + width * 0.08;
         const offsetY = (height - drawHeight) / 2;
 
         context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
@@ -217,7 +218,7 @@ const frameSources = [...baseFrames.slice(startFrameIndex), ...baseFrames.slice(
 
   .printer-area__layout {
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     gap: var(--space-10);
     align-items: stretch;
   }
@@ -257,6 +258,9 @@ const frameSources = [...baseFrames.slice(startFrameIndex), ...baseFrames.slice(
     position: relative;
     align-self: stretch;
     min-height: 100%;
+    margin-left: calc(var(--space-10) * -1);
+    width: calc(100% + var(--space-10));
+    padding-left: 0;
   }
 
   .printer-area__sequence {

@@ -1,17 +1,8 @@
 ---
 import TopBar from './TopBar.astro';
-import { productCatalog } from '../data/productCatalog';
+import { productMegaMenu } from '../data/productCatalog';
 
-const productMegaItems = productCatalog.map((category) => ({
-  id: category.slug,
-  label: category.label,
-  href: category.href,
-  secondary: category.subcategories.map((subcategory) => ({
-    label: subcategory.label,
-    href: `/productos/${category.slug}/${subcategory.slug}`,
-  })),
-  promo: category.promo,
-}));
+const productMegaItems = productMegaMenu;
 
 const navLinks = [
   { label: '\u00c1reas de atenci\u00f3n', href: '/#areas' },

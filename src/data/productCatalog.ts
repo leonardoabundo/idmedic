@@ -26,10 +26,25 @@ export interface ProductCategory {
   subcategories: ProductSubcategory[];
 }
 
+export interface ProductMegaMenuGroup {
+  id: string;
+  label: string;
+  href: string;
+  secondary: Array<{
+    label: string;
+    href: string;
+  }>;
+  promo: {
+    image: string;
+    href: string;
+    label: string;
+  };
+}
+
 export const productCatalog: ProductCategory[] = [
   {
     slug: 'brazaletes',
-    label: 'Identificación y trazabilidad',
+    label: 'Brazaletes',
     href: '/productos/brazaletes',
     description: 'Soluciones de identificacion termica para pacientes adultos, pediatricos y neonatales.',
     promo: {
@@ -120,7 +135,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'etiquetas-e-impresoras',
-    label: 'Ostomia y accesorios',
+    label: 'Etiquetas e Impresoras',
     href: '/productos/etiquetas-e-impresoras',
     description: 'Categorias para etiquetas medicas, equipos termicos y consumibles de impresion.',
     promo: {
@@ -178,7 +193,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'bolsa-de-ostomia',
-    label: 'Protección & bioseguridad',
+    label: 'Bolsa de Ostomía',
     href: '/productos/bolsa-de-ostomia',
     description: 'Línea de soluciones para el manejo y cuidado de ostomías.',
     promo: {
@@ -236,7 +251,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'vestuarios-medicos',
-    label: 'Manejo de residuos biológicos',
+    label: 'Ropa descartable',
     href: '/productos/vestuarios-medicos',
     description: 'Uniformes y vestuario clinico para instituciones de salud.',
     promo: {
@@ -321,6 +336,133 @@ export const productCatalog: ProductCategory[] = [
         ],
       },
     ],
+  },
+  {
+    slug: 'bolsas-mortuorias',
+    label: 'Bolsas mortuorias',
+    href: '/productos/bolsas-mortuorias',
+    description: 'Soluciones para el manejo y resguardo de residuos biológicos y uso funerario clínico.',
+    promo: {
+      image: '/images/inicio/header/menu-bolsa.webp',
+      href: '/productos/bolsas-mortuorias',
+      label: 'Explorar bolsas mortuorias',
+    },
+    subcategories: [
+      {
+        slug: 'bolsas-mortuorias',
+        label: 'Bolsas mortuorias',
+        shortDescription: 'Bolsas diseñadas para manejo seguro y resguardo de residuos biológicos.',
+        heroTitle: 'Bolsas mortuorias',
+        heroDescription: 'Categoría preparada para organizar bolsas por medidas, material y nivel de resistencia.',
+        listingTitle: 'Bolsas mortuorias',
+        infoTitle: 'Clasifica soluciones por tamaño y resistencia',
+        infoDescription: 'Estructura lista para crecer con fichas por medida, calibre, cierre y escenario de uso.',
+        featuredProducts: [
+          { title: 'Bolsa mortuoria estándar', meta: 'Resistencia, Resguardo, Clínico' },
+          { title: 'Bolsa mortuoria reforzada', meta: 'Seguridad, Manejo, Biológico' },
+          { title: 'Bolsa mortuoria con cierre', meta: 'Control, Transporte, Protección' },
+        ],
+      },
+    ],
+  },
+];
+
+export const productMegaMenu: ProductMegaMenuGroup[] = [
+  {
+    id: 'identificacion-y-trazabilidad',
+    label: 'Identificación y trazabilidad',
+    href: '/productos/brazaletes',
+    secondary: [
+      {
+        label: 'Brazaletes de identificación',
+        href: '/productos/brazaletes',
+      },
+      {
+        label: 'Etiquetas adhesivas',
+        href: '/productos/etiquetas-e-impresoras/etiquetas-medicas-adhesivas',
+      },
+      {
+        label: 'Impresora térmica',
+        href: '/productos/etiquetas-e-impresoras/impresoras-termicas',
+      },
+    ],
+    promo: {
+      image: '/images/inicio/header/menu-bra.webp',
+      href: '/productos/brazaletes',
+      label: 'Explorar identificación',
+    },
+  },
+  {
+    id: 'ostomia-y-accesorios',
+    label: 'Ostomia y accesorios',
+    href: '/productos/bolsa-de-ostomia',
+    secondary: [
+      {
+        label: 'Bolsa de ostomía',
+        href: '/productos/bolsa-de-ostomia/bolsa-de-ostomia',
+      },
+      {
+        label: 'Bolsa de urostomía',
+        href: '/productos/bolsa-de-ostomia/bolsa-de-urostomia',
+      },
+      {
+        label: 'Accesorios',
+        href: '/productos/bolsa-de-ostomia/accesorios',
+      },
+    ],
+    promo: {
+      image: '/images/inicio/header/menu-bolsa.webp',
+      href: '/productos/bolsa-de-ostomia',
+      label: 'Explorar ostomía',
+    },
+  },
+  {
+    id: 'proteccion-y-bioseguridad',
+    label: 'Protección & bioseguridad',
+    href: '/productos/vestuarios-medicos',
+    secondary: [
+      {
+        label: 'Batas & mandiles descartables',
+        href: '/productos/vestuarios-medicos/batas-y-mandiles-descartables',
+      },
+      {
+        label: 'Kit descartable',
+        href: '/productos/vestuarios-medicos/kit-descartable',
+      },
+      {
+        label: 'Mascarillas quirúrgicas',
+        href: '/productos/vestuarios-medicos/mascarillas-quirurgicas',
+      },
+      {
+        label: 'Gorros descartables',
+        href: '/productos/vestuarios-medicos/gorros-descartables',
+      },
+      {
+        label: 'Cubrecalzado',
+        href: '/productos/vestuarios-medicos/cubrecalzado',
+      },
+    ],
+    promo: {
+      image: '/images/inicio/header/menu-ropa.webp',
+      href: '/productos/vestuarios-medicos',
+      label: 'Explorar bioseguridad',
+    },
+  },
+  {
+    id: 'manejo-de-residuos-biologicos',
+    label: 'Manejo de residuos biológicos',
+    href: '/productos/bolsas-mortuorias',
+    secondary: [
+      {
+        label: 'Bolsas mortuorias',
+        href: '/productos/bolsas-mortuorias',
+      },
+    ],
+    promo: {
+      image: '/images/inicio/header/menu-bolsa.webp',
+      href: '/productos/bolsas-mortuorias',
+      label: 'Explorar residuos biológicos',
+    },
   },
 ];
 

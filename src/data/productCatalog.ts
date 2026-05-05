@@ -55,9 +55,9 @@ export const productCatalog: ProductCategory[] = [
     subcategories: [
       {
         slug: 'adulto-pediatrico',
-        label: 'Brazaletes adulto - pediatrico',
+        label: 'Brazalete de adulto',
         shortDescription: 'Linea para pacientes adultos y pediatricos con impresion termica y lectura clara.',
-        heroTitle: 'Brazaletes adulto - pediatrico',
+        heroTitle: 'Brazalete de adulto',
         heroDescription:
           'Explore nuestras innovadoras ofertas de productos y solicite una muestra para encontrar la solucion adecuada para usted.',
         listingTitle: 'Brazalete de identificación vinyl',

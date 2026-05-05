@@ -6,6 +6,14 @@ interface Props {
 }
 
 const { category } = Astro.props;
+
+const categoryCardTitleOverrides: Record<string, Record<string, string>> = {
+  brazaletes: {
+    'adulto-pediatrico': 'Brazaletes Adulto',
+    'alerta-especial': 'Brazaletes Pediatrico',
+    'recien-nacidos': 'Brazaletes Neonatal',
+  },
+};
 ---
 
 <section class="product-category-page">
@@ -21,20 +29,23 @@ const { category } = Astro.props;
     </header>
 
     <section class="product-category-page__grid">
-      {category.subcategories.map((subcategory) => (
+      {category.subcategories.map((subcategory) => {
+        const cardTitle = categoryCardTitleOverrides[category.slug]?.[subcategory.slug] ?? subcategory.label;
+
+        return (
         <article class="product-category-page__card">
-          <div class="product-category-page__media" aria-label={`Espacio reservado para ${subcategory.label}`}>
+          <div class="product-category-page__media" aria-label={`Espacio reservado para ${cardTitle}`}>
             <span>Espacio para imagen</span>
           </div>
           <div class="product-category-page__body">
-            <h2>{subcategory.label}</h2>
+            <h2>{cardTitle}</h2>
             <p>{subcategory.shortDescription}</p>
             <a href={`/productos/${category.slug}/${subcategory.slug}`} class="product-category-page__link">
               Ver subcategoria
             </a>
           </div>
         </article>
-      ))}
+      )})}
     </section>
 
     <section class="product-category-page__promo">

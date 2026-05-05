@@ -29,7 +29,7 @@ export interface ProductCategory {
 export const productCatalog: ProductCategory[] = [
   {
     slug: 'brazaletes',
-    label: 'Brazaletes',
+    label: 'IDENTIFICACIÓN Y TRAZABILIDAD',
     href: '/productos/brazaletes',
     description: 'Soluciones de identificacion termica para pacientes adultos, pediatricos y neonatales.',
     promo: {
@@ -120,7 +120,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'etiquetas-e-impresoras',
-    label: 'Etiquetas e Impresoras',
+    label: 'OSTOMIA Y ACCESORIOS',
     href: '/productos/etiquetas-e-impresoras',
     description: 'Categorias para etiquetas medicas, equipos termicos y consumibles de impresion.',
     promo: {
@@ -178,7 +178,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'bolsa-de-ostomia',
-    label: 'Bolsa de Ostomía',
+    label: 'PROTECCIÓN & BIOSEGURIDAD',
     href: '/productos/bolsa-de-ostomia',
     description: 'Línea de soluciones para el manejo y cuidado de ostomías.',
     promo: {
@@ -236,7 +236,7 @@ export const productCatalog: ProductCategory[] = [
   },
   {
     slug: 'vestuarios-medicos',
-    label: 'Ropa descartable',
+    label: 'MANEJO DE RESIDUOS BIOLÓGICOS',
     href: '/productos/vestuarios-medicos',
     description: 'Uniformes y vestuario clinico para instituciones de salud.',
     promo: {
